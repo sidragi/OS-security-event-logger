@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include<QTableWidget>//this is added so it can use the particular table properties
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,5 +20,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void splitNshow(const QString &logEntry, const QString &defaultType);
+
 };
+
 #endif // MAINWINDOW_H
