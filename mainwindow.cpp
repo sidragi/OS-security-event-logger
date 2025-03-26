@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QProcess> // this is used to extract the data from the log process and keep it in a variable
 #include <QTableWidgetItem> // used to modify the cells of the able
-
+#include<QDebug>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -10,7 +10,24 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->tabWidget_2->setVisible(false);
+
+    //PROCESS INITILIZATION SECTION
+
     QProcess *process=new QProcess(this); // the this keyword is used to make it a child of the mainwindow class
+
+    QProcess *fswatchProcessUser= new QProcess(this);// makes child of main
+
+    QProcess *fswatchProcessSecurity= new QProcess(this);// makes child of main
+
+    QProcess *fswatchProcessDevelopement= new QProcess(this);// makes child of main
+
+    QProcess *fswatchProcesCustom= new QProcess(this);// makes child of main
+
+
+
+
+
+    //TABLE CREATION SECTION
 
     ui->realTimeSecurity->setColumnCount(5);//we are gonna have 5 columns in the table so its beeen set t 5 the column names are mentionedbwlow
     QStringList column = {"Timestamp", "Type", "Activity", "PID", "Message"};
@@ -45,29 +62,94 @@ MainWindow::MainWindow(QWidget *parent)
     ui->realTimeSecurityFileAccess->setHorizontalHeaderLabels(column);
     ui->realTimeSecurityFileAccess->horizontalHeader()->setStretchLastSection(true);
 
+    ui->fileChangesUsers->setColumnCount(2);  // similar to the above table initilaizatiion this creates the table with 2 columsn
+    QStringList column_file = {"Timestamps","Messege"};
+    ui->fileChangesUsers->setHorizontalHeaderLabels(column_file);
+    ui->fileChangesUsers->horizontalHeader()->setStretchLastSection(true);
 
+    ui->fileChangesDevelopement->setColumnCount(2);
+    ui->fileChangesDevelopement->setHorizontalHeaderLabels(column_file);
+    ui->fileChangesDevelopement->horizontalHeader()->setStretchLastSection(true);
+
+    ui->fileChangesSecurity->setColumnCount(2);
+    ui->fileChangesSecurity->setHorizontalHeaderLabels(column_file);
+    ui->fileChangesSecurity->horizontalHeader()->setStretchLastSection(true);
+
+
+
+
+    //SIGNAL SLOTS SECTION
 
     connect(process,&QProcess::readyReadStandardOutput,this,[this,process](){ // connect is a signal-slot thing which connects a signal to a slot. Here, the signal is the process (i.e., the log file) and the slot where the signal is to be sent is the QPlainTextEdit, which is a function of this. The [this, process] is a function that allows the object here (the plain text edit) to get the text here
-        QString out=process->readAllStandardOutput().trimmed();// now this puts the output in a string and its then given to the function which slices the string and gives the output
-        splitNshow(out,"INFO");
+        QString out1=process->readAllStandardOutput().trimmed();// now this puts the output in a string and its then given to the function which slices the string and gives the output
+        splitNshow(out1,"INFO");
 
     });
 
     connect(process,&QProcess::readyReadStandardError,this,[this,process]() { // the error is added here so in case the log fails, we can see what happened in it
-        QString out=process->readAllStandardError();
-        splitNshow(out,"ERROR");
+        QString out2=process->readAllStandardError();
+        splitNshow(out2,"ERROR");
 
     });
+
+
+    connect(ui->pushButton, &QPushButton::clicked, this, [this]() {// this is used to make the additional menuse toggleable and, it uses an inline function
+        ui->tabWidget_2->setVisible(!ui->tabWidget_2->isVisible());
+    });
+
+    connect(fswatchProcessUser,&QProcess::readyReadStandardOutput,this,[this,fswatchProcessUser](){//signal slots to itslef similar to the connects above
+        QString out3 = fswatchProcessUser->readAllStandardOutput().trimmed();//get the output and trims the end
+        if(!out3.isEmpty()){ //in case the outputs is empty nothiing will happen
+            ui->fileChangesUsers->insertRow(0);
+            //its been changed so it can add a new one in the top and update it accoridngly
+
+            ui->fileChangesUsers->setItem(0,0,new QTableWidgetItem(QDateTime::currentDateTime().toString("HH:mm:ss")));// it adds the time the log came as its not in the fswatch log output
+            ui->fileChangesUsers->setItem(0,1,new QTableWidgetItem(out3));
+            }
+    });
+
+    connect(fswatchProcessSecurity, &QProcess::readyReadStandardOutput, this, [this, fswatchProcessSecurity](){
+        QString outSecurity = fswatchProcessSecurity->readAllStandardOutput().trimmed();
+        if (!outSecurity.isEmpty()) {
+            ui->fileChangesSecurity->insertRow(0);
+            ui->fileChangesSecurity->setItem(0, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString("HH:mm:ss")));
+            ui->fileChangesSecurity->setItem(0, 1, new QTableWidgetItem(outSecurity));
+        }
+    });
+
+    connect(fswatchProcessDevelopement, &QProcess::readyReadStandardOutput, this, [this, fswatchProcessDevelopement](){
+        QString outDevelopement = fswatchProcessDevelopement->readAllStandardOutput().trimmed();
+        if (!outDevelopement.isEmpty()) {
+            ui->fileChangesDevelopement->insertRow(0);
+            ui->fileChangesDevelopement->setItem(0, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString("HH:mm:ss")));
+            ui->fileChangesDevelopement->setItem(0, 1, new QTableWidgetItem(outDevelopement));
+        }
+    });
+
+
+
+
+    //PROCESS START SECTION;
+
 
     process->start("log", QStringList() <<"stream"<< "--predicate"<< "subsystem == \"com.apple.security\"");
     // log stream --predicate 'subsystem == "com.apple.security"'
     // the log stream thing is used to filter the logs only with com.apple.security
     // macOS has a unified log system, so we have to filter it accordingly. The com.apple.security is a subsystem.
 
+    // QString pathUsers = "/Users";
+    // QString pathApplications = "/Applications";
+    // QString pathVolumes = "/Volumes";
+    // QString pathLibrary = "/Library";
+    // QString pathSystem = "/System";
 
-    connect(ui->pushButton, &QPushButton::clicked, this, [this]() {// this is used to make the additional menuse toggleable and, it uses an inline function
-        ui->tabWidget_2->setVisible(!ui->tabWidget_2->isVisible());
-    });
+    // fswatchProcessUser->start("fswatch", QStringList() << pathUsers << pathApplications << pathVolumes << pathLibrary << pathSystem);
+
+    fswatchProcessUser->start("fswatch", QStringList() << "/Users" << "/Applications" << "/Volumes" << "/Library"<<"/System");
+
+    fswatchProcessSecurity->start("fswatch",QStringList()<<"/var/log"<<"/etc"<<"/private/var/db");
+
+    fswatchProcessDevelopement->start("fswatch",QStringList()<<"/usr/local"<<"/Users/Desktop/programs");
 
 
 }
@@ -89,71 +171,61 @@ void MainWindow::splitNshow(const QString &logEntry,const QString &defaultType)/
     }
     message=message.trimmed(); // remove the spaces at the end
 
-    int row=ui->realTimeSecurity->rowCount();//returns the int value f the row bascially index
-    ui->realTimeSecurity->insertRow(row);//inset the row
-
-
-    ui->realTimeSecurity->setItem(row,0,new QTableWidgetItem(timestamp)); // takes the msg and puts it in the index of the row
-    ui->realTimeSecurity->setItem(row,1,new QTableWidgetItem(type.isEmpty() ? defaultType : type));// in case its empty
-    ui->realTimeSecurity->setItem(row,2,new QTableWidgetItem(activity));
-    ui->realTimeSecurity->setItem(row,3,new QTableWidgetItem(pid));
-    ui->realTimeSecurity->setItem(row,4,new QTableWidgetItem(message));
-
-    ui->realTimeSecurity->scrollToBottom(); //auto scrools to the botton when new stuff arrives
+    ui->realTimeSecurity->insertRow(0); // Insert a new row at the top
+    ui->realTimeSecurity->setItem(0,0,new QTableWidgetItem(timestamp)); // takes the msg and puts it in the index of the row
+    ui->realTimeSecurity->setItem(0,1,new QTableWidgetItem(type.isEmpty() ? defaultType : type));// in case its empty
+    ui->realTimeSecurity->setItem(0,2,new QTableWidgetItem(activity));
+    ui->realTimeSecurity->setItem(0,3,new QTableWidgetItem(pid));
+    ui->realTimeSecurity->setItem(0,4,new QTableWidgetItem(message));
 
     if (message.contains("authentication", Qt::CaseInsensitive)) { // this makes sure that the failed auth messege individually also goes to the the failed auth table
-        int rowAuth = ui->realTimeSecurityAuthFail->rowCount();
-        ui->realTimeSecurityAuthFail->insertRow(rowAuth);
+        ui->realTimeSecurityAuthFail->insertRow(0);
 
-        ui->realTimeSecurityAuthFail->setItem(rowAuth,0,new QTableWidgetItem(timestamp));
-        ui->realTimeSecurityAuthFail->setItem(rowAuth,1,new QTableWidgetItem(type.isEmpty() ? defaultType : type));
-        ui->realTimeSecurityAuthFail->setItem(rowAuth,2,new QTableWidgetItem(activity));
-        ui->realTimeSecurityAuthFail->setItem(rowAuth,3,new QTableWidgetItem(pid));
-        ui->realTimeSecurityAuthFail->setItem(rowAuth,4,new QTableWidgetItem(message));
-        ui->realTimeSecurityAuthFail->scrollToBottom();
+        ui->realTimeSecurityAuthFail->setItem(0,0,new QTableWidgetItem(timestamp));
+        ui->realTimeSecurityAuthFail->setItem(0,1,new QTableWidgetItem(type.isEmpty() ? defaultType : type));
+        ui->realTimeSecurityAuthFail->setItem(0,2,new QTableWidgetItem(activity));
+        ui->realTimeSecurityAuthFail->setItem(0,3,new QTableWidgetItem(pid));
+        ui->realTimeSecurityAuthFail->setItem(0,4,new QTableWidgetItem(message));
+
     }
-    if (message.contains("sudo", Qt::CaseInsensitive)) {
-        int rowSudo = ui->realTimeSecuritySudoFail->rowCount();
-        ui->realTimeSecuritySudoFail->insertRow(rowSudo);
-        ui->realTimeSecuritySudoFail->setItem(rowSudo, 0, new QTableWidgetItem(timestamp));
-        ui->realTimeSecuritySudoFail->setItem(rowSudo, 1, new QTableWidgetItem(type));
-        ui->realTimeSecuritySudoFail->setItem(rowSudo, 2, new QTableWidgetItem(activity));
-        ui->realTimeSecuritySudoFail->setItem(rowSudo, 3, new QTableWidgetItem(pid));
-        ui->realTimeSecuritySudoFail->setItem(rowSudo, 4, new QTableWidgetItem(message));
-        ui->realTimeSecuritySudoFail->scrollToBottom();
+    if (message.contains("sudo", Qt::CaseInsensitive)) { // the same thing is repeated of rthe other tables
+        ui->realTimeSecuritySudoFail->insertRow(0);
+        ui->realTimeSecuritySudoFail->setItem(0, 0, new QTableWidgetItem(timestamp));
+        ui->realTimeSecuritySudoFail->setItem(0, 1, new QTableWidgetItem(type));
+        ui->realTimeSecuritySudoFail->setItem(0, 2, new QTableWidgetItem(activity));
+        ui->realTimeSecuritySudoFail->setItem(0, 3, new QTableWidgetItem(pid));
+        ui->realTimeSecuritySudoFail->setItem(0, 4, new QTableWidgetItem(message));
+
     }
 
     if (message.contains("codesign", Qt::CaseInsensitive)) {
-        int rowCodeSign = ui->realTimeSecurityCodeSignIssue->rowCount();
-        ui->realTimeSecurityCodeSignIssue->insertRow(rowCodeSign);
-        ui->realTimeSecurityCodeSignIssue->setItem(rowCodeSign, 0, new QTableWidgetItem(timestamp));
-        ui->realTimeSecurityCodeSignIssue->setItem(rowCodeSign, 1, new QTableWidgetItem(type));
-        ui->realTimeSecurityCodeSignIssue->setItem(rowCodeSign, 2, new QTableWidgetItem(activity));
-        ui->realTimeSecurityCodeSignIssue->setItem(rowCodeSign, 3, new QTableWidgetItem(pid));
-        ui->realTimeSecurityCodeSignIssue->setItem(rowCodeSign, 4, new QTableWidgetItem(message));
-        ui->realTimeSecurityCodeSignIssue->scrollToBottom();
+        ui->realTimeSecurityCodeSignIssue->insertRow(0);
+        ui->realTimeSecurityCodeSignIssue->setItem(0, 0, new QTableWidgetItem(timestamp));
+        ui->realTimeSecurityCodeSignIssue->setItem(0, 1, new QTableWidgetItem(type));
+        ui->realTimeSecurityCodeSignIssue->setItem(0, 2, new QTableWidgetItem(activity));
+        ui->realTimeSecurityCodeSignIssue->setItem(0, 3, new QTableWidgetItem(pid));
+        ui->realTimeSecurityCodeSignIssue->setItem(0, 4, new QTableWidgetItem(message));
+
     }
 
     if (message.contains("gatekeeper", Qt::CaseInsensitive)) {
-        int rowGatekeeper = ui->realTimeSecurityGatekeeper->rowCount();
-        ui->realTimeSecurityGatekeeper->insertRow(rowGatekeeper);
-        ui->realTimeSecurityGatekeeper->setItem(rowGatekeeper, 0, new QTableWidgetItem(timestamp));
-        ui->realTimeSecurityGatekeeper->setItem(rowGatekeeper, 1, new QTableWidgetItem(type));
-        ui->realTimeSecurityGatekeeper->setItem(rowGatekeeper, 2, new QTableWidgetItem(activity));
-        ui->realTimeSecurityGatekeeper->setItem(rowGatekeeper, 3, new QTableWidgetItem(pid));
-        ui->realTimeSecurityGatekeeper->setItem(rowGatekeeper, 4, new QTableWidgetItem(message));
-        ui->realTimeSecurityGatekeeper->scrollToBottom();
+        ui->realTimeSecurityGatekeeper->insertRow(0);
+        ui->realTimeSecurityGatekeeper->setItem(0, 0, new QTableWidgetItem(timestamp));
+        ui->realTimeSecurityGatekeeper->setItem(0, 1, new QTableWidgetItem(type));
+        ui->realTimeSecurityGatekeeper->setItem(0, 2, new QTableWidgetItem(activity));
+        ui->realTimeSecurityGatekeeper->setItem(0, 3, new QTableWidgetItem(pid));
+        ui->realTimeSecurityGatekeeper->setItem(0, 4, new QTableWidgetItem(message));
+
     }
 
     if (message.contains("keychain", Qt::CaseInsensitive)) {
-        int rowKeychain = ui->realTimeSecurityKeychain->rowCount();
-        ui->realTimeSecurityKeychain->insertRow(rowKeychain);
-        ui->realTimeSecurityKeychain->setItem(rowKeychain, 0, new QTableWidgetItem(timestamp));
-        ui->realTimeSecurityKeychain->setItem(rowKeychain, 1, new QTableWidgetItem(type));
-        ui->realTimeSecurityKeychain->setItem(rowKeychain, 2, new QTableWidgetItem(activity));
-        ui->realTimeSecurityKeychain->setItem(rowKeychain, 3, new QTableWidgetItem(pid));
-        ui->realTimeSecurityKeychain->setItem(rowKeychain, 4, new QTableWidgetItem(message));
-        ui->realTimeSecurityKeychain->scrollToBottom();
+        ui->realTimeSecurityKeychain->insertRow(0);
+        ui->realTimeSecurityKeychain->setItem(0, 0, new QTableWidgetItem(timestamp));
+        ui->realTimeSecurityKeychain->setItem(0, 1, new QTableWidgetItem(type));
+        ui->realTimeSecurityKeychain->setItem(0, 2, new QTableWidgetItem(activity));
+        ui->realTimeSecurityKeychain->setItem(0, 3, new QTableWidgetItem(pid));
+        ui->realTimeSecurityKeychain->setItem(0, 4, new QTableWidgetItem(message));
+
     }
 }
 

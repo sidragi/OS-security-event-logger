@@ -24,7 +24,7 @@
        <enum>QTabWidget::TabShape::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -49,23 +49,34 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Tab1</string>
+        <string>Security Logs</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QTableWidget" name="realTimeSecurity"/>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>General Errors</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>General Errors</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_5">
+            <property name="text">
+             <string>Extract</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>4</number>
+           <number>6</number>
           </property>
           <property name="tabBarAutoHide">
            <bool>false</bool>
@@ -74,9 +85,16 @@
            <attribute name="title">
             <string>Authentication Failure</string>
            </attribute>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <layout class="QVBoxLayout" name="verticalLayout_10">
             <item>
              <widget class="QTableWidget" name="realTimeSecurityAuthFail"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="text">
+               <string>Extract</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -88,6 +106,13 @@
             <item>
              <widget class="QTableWidget" name="realTimeSecuritySudoFail"/>
             </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_6">
+              <property name="text">
+               <string>Extract</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab_5">
@@ -97,6 +122,13 @@
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QTableWidget" name="realTimeSecurityCodeSignIssue"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_7">
+              <property name="text">
+               <string>Extract</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -108,6 +140,13 @@
             <item>
              <widget class="QTableWidget" name="realTimeSecurityGatekeeper"/>
             </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_8">
+              <property name="text">
+               <string>Extract</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab_8">
@@ -117,6 +156,13 @@
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
              <widget class="QTableWidget" name="realTimeSecurityKeychain"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_9">
+              <property name="text">
+               <string>Extract</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -128,6 +174,13 @@
             <item>
              <widget class="QTableWidget" name="realTimeSecurityFileAccess"/>
             </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_10">
+              <property name="text">
+               <string>Extract</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab_9">
@@ -136,7 +189,21 @@
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
-             <widget class="QTableWidget" name="realTimeSecuritySIPViolation"/>
+             <widget class="QTableWidget" name="realTimeSecuritySIPViolation">
+              <property name="alternatingRowColors">
+               <bool>false</bool>
+              </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_11">
+              <property name="text">
+               <string>Extract</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -146,8 +213,65 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>File Changes</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QTabWidget" name="tabWidget_3">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab_10">
+           <attribute name="title">
+            <string>User</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <widget class="QTableWidget" name="fileChangesUsers"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_11">
+           <attribute name="title">
+            <string>Security</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item>
+             <widget class="QTableWidget" name="fileChangesSecurity"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_12">
+           <attribute name="title">
+            <string>Developement</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_12">
+            <item>
+             <widget class="QTableWidget" name="fileChangesDevelopement"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="text">
+             <string>Open</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>Extract</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

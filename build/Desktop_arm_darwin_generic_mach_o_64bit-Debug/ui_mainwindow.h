@@ -33,30 +33,53 @@ public:
     QWidget *tab;
     QVBoxLayout *verticalLayout;
     QTableWidget *realTimeSecurity;
+    QHBoxLayout *horizontalLayout_3;
     QPushButton *pushButton;
+    QPushButton *pushButton_5;
     QTabWidget *tabWidget_2;
     QWidget *tab_3;
-    QHBoxLayout *horizontalLayout_3;
+    QVBoxLayout *verticalLayout_10;
     QTableWidget *realTimeSecurityAuthFail;
+    QPushButton *pushButton_4;
     QWidget *tab_4;
     QVBoxLayout *verticalLayout_2;
     QTableWidget *realTimeSecuritySudoFail;
+    QPushButton *pushButton_6;
     QWidget *tab_5;
     QVBoxLayout *verticalLayout_3;
     QTableWidget *realTimeSecurityCodeSignIssue;
+    QPushButton *pushButton_7;
     QWidget *tab_6;
     QVBoxLayout *verticalLayout_4;
     QTableWidget *realTimeSecurityGatekeeper;
+    QPushButton *pushButton_8;
     QWidget *tab_8;
     QVBoxLayout *verticalLayout_5;
     QTableWidget *realTimeSecurityKeychain;
+    QPushButton *pushButton_9;
     QWidget *tab_7;
     QVBoxLayout *verticalLayout_7;
     QTableWidget *realTimeSecurityFileAccess;
+    QPushButton *pushButton_10;
     QWidget *tab_9;
     QVBoxLayout *verticalLayout_6;
     QTableWidget *realTimeSecuritySIPViolation;
+    QPushButton *pushButton_11;
     QWidget *tab_2;
+    QVBoxLayout *verticalLayout_8;
+    QTabWidget *tabWidget_3;
+    QWidget *tab_10;
+    QVBoxLayout *verticalLayout_9;
+    QTableWidget *fileChangesUsers;
+    QWidget *tab_11;
+    QVBoxLayout *verticalLayout_11;
+    QTableWidget *fileChangesSecurity;
+    QWidget *tab_12;
+    QVBoxLayout *verticalLayout_12;
+    QTableWidget *fileChangesDevelopement;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_3;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -88,22 +111,37 @@ public:
 
         verticalLayout->addWidget(realTimeSecurity);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName("horizontalLayout_3");
         pushButton = new QPushButton(tab);
         pushButton->setObjectName("pushButton");
 
-        verticalLayout->addWidget(pushButton);
+        horizontalLayout_3->addWidget(pushButton);
+
+        pushButton_5 = new QPushButton(tab);
+        pushButton_5->setObjectName("pushButton_5");
+
+        horizontalLayout_3->addWidget(pushButton_5);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
 
         tabWidget_2 = new QTabWidget(tab);
         tabWidget_2->setObjectName("tabWidget_2");
         tabWidget_2->setTabBarAutoHide(false);
         tab_3 = new QWidget();
         tab_3->setObjectName("tab_3");
-        horizontalLayout_3 = new QHBoxLayout(tab_3);
-        horizontalLayout_3->setObjectName("horizontalLayout_3");
+        verticalLayout_10 = new QVBoxLayout(tab_3);
+        verticalLayout_10->setObjectName("verticalLayout_10");
         realTimeSecurityAuthFail = new QTableWidget(tab_3);
         realTimeSecurityAuthFail->setObjectName("realTimeSecurityAuthFail");
 
-        horizontalLayout_3->addWidget(realTimeSecurityAuthFail);
+        verticalLayout_10->addWidget(realTimeSecurityAuthFail);
+
+        pushButton_4 = new QPushButton(tab_3);
+        pushButton_4->setObjectName("pushButton_4");
+
+        verticalLayout_10->addWidget(pushButton_4);
 
         tabWidget_2->addTab(tab_3, QString());
         tab_4 = new QWidget();
@@ -115,6 +153,11 @@ public:
 
         verticalLayout_2->addWidget(realTimeSecuritySudoFail);
 
+        pushButton_6 = new QPushButton(tab_4);
+        pushButton_6->setObjectName("pushButton_6");
+
+        verticalLayout_2->addWidget(pushButton_6);
+
         tabWidget_2->addTab(tab_4, QString());
         tab_5 = new QWidget();
         tab_5->setObjectName("tab_5");
@@ -124,6 +167,11 @@ public:
         realTimeSecurityCodeSignIssue->setObjectName("realTimeSecurityCodeSignIssue");
 
         verticalLayout_3->addWidget(realTimeSecurityCodeSignIssue);
+
+        pushButton_7 = new QPushButton(tab_5);
+        pushButton_7->setObjectName("pushButton_7");
+
+        verticalLayout_3->addWidget(pushButton_7);
 
         tabWidget_2->addTab(tab_5, QString());
         tab_6 = new QWidget();
@@ -135,6 +183,11 @@ public:
 
         verticalLayout_4->addWidget(realTimeSecurityGatekeeper);
 
+        pushButton_8 = new QPushButton(tab_6);
+        pushButton_8->setObjectName("pushButton_8");
+
+        verticalLayout_4->addWidget(pushButton_8);
+
         tabWidget_2->addTab(tab_6, QString());
         tab_8 = new QWidget();
         tab_8->setObjectName("tab_8");
@@ -144,6 +197,11 @@ public:
         realTimeSecurityKeychain->setObjectName("realTimeSecurityKeychain");
 
         verticalLayout_5->addWidget(realTimeSecurityKeychain);
+
+        pushButton_9 = new QPushButton(tab_8);
+        pushButton_9->setObjectName("pushButton_9");
+
+        verticalLayout_5->addWidget(pushButton_9);
 
         tabWidget_2->addTab(tab_8, QString());
         tab_7 = new QWidget();
@@ -155,6 +213,11 @@ public:
 
         verticalLayout_7->addWidget(realTimeSecurityFileAccess);
 
+        pushButton_10 = new QPushButton(tab_7);
+        pushButton_10->setObjectName("pushButton_10");
+
+        verticalLayout_7->addWidget(pushButton_10);
+
         tabWidget_2->addTab(tab_7, QString());
         tab_9 = new QWidget();
         tab_9->setObjectName("tab_9");
@@ -162,8 +225,15 @@ public:
         verticalLayout_6->setObjectName("verticalLayout_6");
         realTimeSecuritySIPViolation = new QTableWidget(tab_9);
         realTimeSecuritySIPViolation->setObjectName("realTimeSecuritySIPViolation");
+        realTimeSecuritySIPViolation->setAlternatingRowColors(false);
+        realTimeSecuritySIPViolation->setSortingEnabled(true);
 
         verticalLayout_6->addWidget(realTimeSecuritySIPViolation);
+
+        pushButton_11 = new QPushButton(tab_9);
+        pushButton_11->setObjectName("pushButton_11");
+
+        verticalLayout_6->addWidget(pushButton_11);
 
         tabWidget_2->addTab(tab_9, QString());
 
@@ -172,6 +242,58 @@ public:
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName("tab_2");
+        verticalLayout_8 = new QVBoxLayout(tab_2);
+        verticalLayout_8->setObjectName("verticalLayout_8");
+        tabWidget_3 = new QTabWidget(tab_2);
+        tabWidget_3->setObjectName("tabWidget_3");
+        tab_10 = new QWidget();
+        tab_10->setObjectName("tab_10");
+        verticalLayout_9 = new QVBoxLayout(tab_10);
+        verticalLayout_9->setObjectName("verticalLayout_9");
+        fileChangesUsers = new QTableWidget(tab_10);
+        fileChangesUsers->setObjectName("fileChangesUsers");
+
+        verticalLayout_9->addWidget(fileChangesUsers);
+
+        tabWidget_3->addTab(tab_10, QString());
+        tab_11 = new QWidget();
+        tab_11->setObjectName("tab_11");
+        verticalLayout_11 = new QVBoxLayout(tab_11);
+        verticalLayout_11->setObjectName("verticalLayout_11");
+        fileChangesSecurity = new QTableWidget(tab_11);
+        fileChangesSecurity->setObjectName("fileChangesSecurity");
+
+        verticalLayout_11->addWidget(fileChangesSecurity);
+
+        tabWidget_3->addTab(tab_11, QString());
+        tab_12 = new QWidget();
+        tab_12->setObjectName("tab_12");
+        verticalLayout_12 = new QVBoxLayout(tab_12);
+        verticalLayout_12->setObjectName("verticalLayout_12");
+        fileChangesDevelopement = new QTableWidget(tab_12);
+        fileChangesDevelopement->setObjectName("fileChangesDevelopement");
+
+        verticalLayout_12->addWidget(fileChangesDevelopement);
+
+        tabWidget_3->addTab(tab_12, QString());
+
+        verticalLayout_8->addWidget(tabWidget_3);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName("horizontalLayout_4");
+        pushButton_2 = new QPushButton(tab_2);
+        pushButton_2->setObjectName("pushButton_2");
+
+        horizontalLayout_4->addWidget(pushButton_2);
+
+        pushButton_3 = new QPushButton(tab_2);
+        pushButton_3->setObjectName("pushButton_3");
+
+        horizontalLayout_4->addWidget(pushButton_3);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_4);
+
         tabWidget->addTab(tab_2, QString());
 
         horizontalLayout_2->addWidget(tabWidget);
@@ -187,8 +309,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(4);
+        tabWidget->setCurrentIndex(1);
+        tabWidget_2->setCurrentIndex(6);
+        tabWidget_3->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -198,15 +321,28 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "General Errors", nullptr));
+        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Authentication Failure", nullptr));
+        pushButton_6->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QCoreApplication::translate("MainWindow", "Sudo Failures", nullptr));
+        pushButton_7->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Code Signing Issues", nullptr));
+        pushButton_8->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QCoreApplication::translate("MainWindow", "Gatekeeper", nullptr));
+        pushButton_9->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_8), QCoreApplication::translate("MainWindow", "Keychain", nullptr));
+        pushButton_10->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_7), QCoreApplication::translate("MainWindow", "File Access Restrictions", nullptr));
+        pushButton_11->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_9), QCoreApplication::translate("MainWindow", "SIP Violations", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Tab1", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Tab 2", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Security Logs", nullptr));
+        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_10), QCoreApplication::translate("MainWindow", "User", nullptr));
+        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_11), QCoreApplication::translate("MainWindow", "Security", nullptr));
+        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_12), QCoreApplication::translate("MainWindow", "Developement", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "Open", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "File Changes", nullptr));
     } // retranslateUi
 
 };

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include<QTableWidget>//this is added so it can use the particular table properties
+#include <QDateTime>// in order to use current time
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +25,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void splitNshow(const QString &logEntry, const QString &defaultType);
+    QString customPathText = "Users/";//the custom path text is used to store the user entered value
+
 
 };
 
