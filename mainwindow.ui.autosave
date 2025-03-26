@@ -232,20 +232,6 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout">
-                <item>
-                 <widget class="QLabel" name="label">
-                  <property name="text">
-                   <string>Refresh Timer</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSpinBox" name="refreshTimer"/>
-                </item>
-               </layout>
-              </item>
-              <item>
                <widget class="QPushButton" name="pushButton_12">
                 <property name="text">
                  <string>Clear</string>
@@ -356,5 +342,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_12</sender>
+   <signal>clicked()</signal>
+   <receiver>realtimeProcess</receiver>
+   <slot>clearContents()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>237</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>240</x>
+     <y>469</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

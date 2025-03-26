@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tabWidget_2->setVisible(false);
 
+
     //PROCESS INITILIZATION SECTION
 
     QProcess *process=new QProcess(this); // the this keyword is used to make it a child of the mainwindow class
@@ -21,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QProcess *fswatchProcessDevelopement= new QProcess(this);// makes child of main
 
-    QProcess *fswatchProcesCustom= new QProcess(this);// makes child of main
+    QProcess realtimeProcess;//here a new instacne of the main class in not needed because this function is not running as much as the others os its for it to be implimented like this otherwise there will bejust too much processing power used on unnceccary stuff
 
 
 
@@ -75,6 +76,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fileChangesSecurity->setHorizontalHeaderLabels(column_file);
     ui->fileChangesSecurity->horizontalHeader()->setStretchLastSection(true);
 
+    ui->runningProcess->setColumnCount(10);// making the process table
+    QStringList col = {"USER", "PID", "%CPU", "%MEM", "VSZ", "RSS", "TT", "STAT", "TIME", "COMMAND"};
+    ui->runningProcess->setHorizontalHeaderLabels(col);
+    ui->runningProcess->horizontalHeader()->setStretchLastSection(true);
+
+    ui->realtimeProcess->setColumnCount(10);// making the realtime process table
+    ui->realtimeProcess->setHorizontalHeaderLabels(col);
+    ui->realtimeProcess->horizontalHeader()->setStretchLastSection(true);
 
 
 
@@ -126,6 +135,16 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
 
+    connect(ui->refreshRunning, &QPushButton::clicked, this, &MainWindow::refresh_processList);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MainWindow::refresh_topProcess);
+    timer->start(1000);  // Runs every 1000ms (1 second)
+
+
+    // connect(processTimer, &QTimer::timeout, this, &MainWindow::refresh_topProcess);
+    // processTimer->start(1000); // Fixed interval of 1 second
+
 
 
 
@@ -136,14 +155,6 @@ MainWindow::MainWindow(QWidget *parent)
     // log stream --predicate 'subsystem == "com.apple.security"'
     // the log stream thing is used to filter the logs only with com.apple.security
     // macOS has a unified log system, so we have to filter it accordingly. The com.apple.security is a subsystem.
-
-    // QString pathUsers = "/Users";
-    // QString pathApplications = "/Applications";
-    // QString pathVolumes = "/Volumes";
-    // QString pathLibrary = "/Library";
-    // QString pathSystem = "/System";
-
-    // fswatchProcessUser->start("fswatch", QStringList() << pathUsers << pathApplications << pathVolumes << pathLibrary << pathSystem);
 
     fswatchProcessUser->start("fswatch", QStringList() << "/Users" << "/Applications" << "/Volumes" << "/Library"<<"/System");
 
@@ -228,6 +239,48 @@ void MainWindow::splitNshow(const QString &logEntry,const QString &defaultType)/
 
     }
 }
+
+void MainWindow::refresh_processList(){
+    QProcess runProcess;// name of the process
+    runProcess.start("sh", QStringList() << "-c" << "ps aux | grep '^root'"); //the process asme as above but it works on a shell so the pipelinng can work
+    runProcess.waitForFinished();// waits fort it to be finishsed then starts to insert the lines
+    QString out4=runProcess.readAllStandardOutput(); // stored in out4
+    QStringList lines = out4.split("\n",Qt::SkipEmptyParts);//its split into new lines the skip emopty parts is there to make sure that it gonores empty lines
+    ui->runningProcess->setRowCount(0);//when the new will be updated the old will be clearedn
+    for (const QString &line : lines) {
+        QStringList colum=line.split(" ",Qt::SkipEmptyParts);//splits as per witespace
+        int row=ui->runningProcess->rowCount();//basically an index
+        ui->runningProcess->insertRow(row);
+        for (int i = 0; i < 9; ++i) {
+            ui->runningProcess->setItem(row, i, new QTableWidgetItem(colum[i]));// takes the idiviadual enteries and entries them
+            QString command = colum.mid(9).join(" ");
+            ui->runningProcess->setItem(row,9, new QTableWidgetItem(command));
+
+        }
+
+    }
+
+}
+void MainWindow::refresh_topProcess() {
+    QProcess realtProcess;
+    realtProcess.start("sh", QStringList() << "-c"<< "ps axo user,pid,%cpu,%mem,vsz,rss,tt,state,time,command | sort -k3 -nr | head -1");
+    realtProcess.waitForFinished();
+    QString output = realtProcess.readAllStandardOutput().trimmed();
+    if(output.isEmpty()) return;  // so that empty rows dont come
+    while(output.contains("  ")) {
+        output.replace("  ", " ");  // im splitting by space so this makes sure that any double spaces are rplaced by a single space so its not counted as 2 seperate instances
+    }
+    QStringList colum = output.split(" ", Qt::SkipEmptyParts);
+    if(colum.size()<10)return;  // Ensure valid data
+    ui->realtimeProcess->insertRow(0);  // Insert a new row at the top
+    for (int i = 0; i < 9; ++i) {
+        ui->realtimeProcess->setItem(0, i, new QTableWidgetItem(colum[i]));
+    }
+    QString command = colum.mid(9).join(" ");
+    ui->realtimeProcess->setItem(0, 9, new QTableWidgetItem(command));
+}
+
+
 
 MainWindow::~MainWindow()
 {

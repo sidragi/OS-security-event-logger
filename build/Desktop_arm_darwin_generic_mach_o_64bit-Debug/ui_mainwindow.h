@@ -13,9 +13,11 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
@@ -65,6 +67,21 @@ public:
     QVBoxLayout *verticalLayout_6;
     QTableWidget *realTimeSecuritySIPViolation;
     QPushButton *pushButton_11;
+    QWidget *tab_13;
+    QVBoxLayout *verticalLayout_13;
+    QTabWidget *tabWidget_4;
+    QWidget *tab_14;
+    QVBoxLayout *verticalLayout_14;
+    QTableWidget *realtimeProcess;
+    QHBoxLayout *horizontalLayout_5;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label;
+    QSpinBox *refreshTimer;
+    QPushButton *pushButton_12;
+    QWidget *tab_15;
+    QVBoxLayout *verticalLayout_15;
+    QTableWidget *runningProcess;
+    QPushButton *refreshRunning;
     QWidget *tab_2;
     QVBoxLayout *verticalLayout_8;
     QTabWidget *tabWidget_3;
@@ -240,6 +257,66 @@ public:
         verticalLayout->addWidget(tabWidget_2);
 
         tabWidget->addTab(tab, QString());
+        tab_13 = new QWidget();
+        tab_13->setObjectName("tab_13");
+        verticalLayout_13 = new QVBoxLayout(tab_13);
+        verticalLayout_13->setObjectName("verticalLayout_13");
+        tabWidget_4 = new QTabWidget(tab_13);
+        tabWidget_4->setObjectName("tabWidget_4");
+        tab_14 = new QWidget();
+        tab_14->setObjectName("tab_14");
+        verticalLayout_14 = new QVBoxLayout(tab_14);
+        verticalLayout_14->setObjectName("verticalLayout_14");
+        realtimeProcess = new QTableWidget(tab_14);
+        realtimeProcess->setObjectName("realtimeProcess");
+
+        verticalLayout_14->addWidget(realtimeProcess);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName("horizontalLayout");
+        label = new QLabel(tab_14);
+        label->setObjectName("label");
+
+        horizontalLayout->addWidget(label);
+
+        refreshTimer = new QSpinBox(tab_14);
+        refreshTimer->setObjectName("refreshTimer");
+
+        horizontalLayout->addWidget(refreshTimer);
+
+
+        horizontalLayout_5->addLayout(horizontalLayout);
+
+        pushButton_12 = new QPushButton(tab_14);
+        pushButton_12->setObjectName("pushButton_12");
+
+        horizontalLayout_5->addWidget(pushButton_12);
+
+
+        verticalLayout_14->addLayout(horizontalLayout_5);
+
+        tabWidget_4->addTab(tab_14, QString());
+        tab_15 = new QWidget();
+        tab_15->setObjectName("tab_15");
+        verticalLayout_15 = new QVBoxLayout(tab_15);
+        verticalLayout_15->setObjectName("verticalLayout_15");
+        runningProcess = new QTableWidget(tab_15);
+        runningProcess->setObjectName("runningProcess");
+
+        verticalLayout_15->addWidget(runningProcess);
+
+        refreshRunning = new QPushButton(tab_15);
+        refreshRunning->setObjectName("refreshRunning");
+
+        verticalLayout_15->addWidget(refreshRunning);
+
+        tabWidget_4->addTab(tab_15, QString());
+
+        verticalLayout_13->addWidget(tabWidget_4);
+
+        tabWidget->addTab(tab_13, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName("tab_2");
         verticalLayout_8 = new QVBoxLayout(tab_2);
@@ -311,6 +388,7 @@ public:
 
         tabWidget->setCurrentIndex(1);
         tabWidget_2->setCurrentIndex(6);
+        tabWidget_4->setCurrentIndex(0);
         tabWidget_3->setCurrentIndex(0);
 
 
@@ -337,6 +415,12 @@ public:
         pushButton_11->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_9), QCoreApplication::translate("MainWindow", "SIP Violations", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Security Logs", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "Refresh Timer", nullptr));
+        pushButton_12->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
+        tabWidget_4->setTabText(tabWidget_4->indexOf(tab_14), QCoreApplication::translate("MainWindow", "Realtime", nullptr));
+        refreshRunning->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+        tabWidget_4->setTabText(tabWidget_4->indexOf(tab_15), QCoreApplication::translate("MainWindow", "Running", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_13), QCoreApplication::translate("MainWindow", "Process Logs", nullptr));
         tabWidget_3->setTabText(tabWidget_3->indexOf(tab_10), QCoreApplication::translate("MainWindow", "User", nullptr));
         tabWidget_3->setTabText(tabWidget_3->indexOf(tab_11), QCoreApplication::translate("MainWindow", "Security", nullptr));
         tabWidget_3->setTabText(tabWidget_3->indexOf(tab_12), QCoreApplication::translate("MainWindow", "Developement", nullptr));
