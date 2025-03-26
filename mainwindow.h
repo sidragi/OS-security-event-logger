@@ -23,6 +23,7 @@ private slots:
     void on_pushButton_clicked();
     void refresh_processList();// this function is declared so on clicking the refresh button you will get the current running root processes
     void refresh_topProcess();//this will get the highet process with cpu usage
+    void networkProcess();//same as the above ones used to updat ethe process
 
 private:
     Ui::MainWindow *ui;

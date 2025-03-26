@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     QProcess *fswatchProcessDevelopement= new QProcess(this);// makes child of main
 
-    QProcess realtimeProcess;//here a new instacne of the main class in not needed because this function is not running as much as the others os its for it to be implimented like this otherwise there will bejust too much processing power used on unnceccary stuff
 
 
 
@@ -85,6 +84,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->realtimeProcess->setHorizontalHeaderLabels(col);
     ui->realtimeProcess->horizontalHeader()->setStretchLastSection(true);
 
+    ui->networkConnections->setColumnCount(9);//same thing as beofre
+    QStringList c = {"Command", "PID", "User", "FD", "Type", "Device", "Size/Off", "Node","Name"};
+    ui->networkConnections->setHorizontalHeaderLabels(c);
+    ui->networkConnections->horizontalHeader()->setStretchLastSection(true);
+
 
 
     //SIGNAL SLOTS SECTION
@@ -138,8 +142,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->refreshRunning, &QPushButton::clicked, this, &MainWindow::refresh_processList);
 
     QTimer *timer = new QTimer(this);
+
     connect(timer, &QTimer::timeout, this, &MainWindow::refresh_topProcess);
+    connect(timer, &QTimer::timeout, this, &MainWindow::networkProcess);
     timer->start(1000);  // Runs every 1000ms (1 second)
+
 
 
     // connect(processTimer, &QTimer::timeout, this, &MainWindow::refresh_topProcess);
@@ -280,6 +287,27 @@ void MainWindow::refresh_topProcess() {
     ui->realtimeProcess->setItem(0, 9, new QTableWidgetItem(command));
 }
 
+void MainWindow::networkProcess(){
+    QProcess netProcess;
+    netProcess.start("sh", QStringList() << "-c" << "lsof -i");//net stat is not used as mac uses it for differnt stuff other than oncomming nrtwork connections so here a new command lsof is used which only displays current net processes
+    netProcess.waitForFinished();
+    QString out4=netProcess.readAllStandardOutput(); // stored in out4
+    QStringList lines = out4.split("\n",Qt::SkipEmptyParts);//its split into new lines the skip emopty parts is there to make sure that it gonores empty lines
+    ui->networkConnections->setRowCount(0);//when the new will be updated the old will be clearedn
+    for (int i = 1; i < lines.size(); ++i) {
+        QStringList colum=lines[i].split(" ",Qt::SkipEmptyParts);//splits as per witespace
+        int row=ui->networkConnections->rowCount();//basically an index
+        ui->networkConnections->insertRow(row);
+        for (int i = 0; i < 7; ++i) {
+            ui->networkConnections->setItem(row, i, new QTableWidgetItem(colum[i]));// takes the idiviadual enteries and entries them
+            QString command = colum.mid(8).join(" ");
+            ui->networkConnections->setItem(row,8, new QTableWidgetItem(command));
+
+        }
+
+    }
+
+}
 
 
 MainWindow::~MainWindow()

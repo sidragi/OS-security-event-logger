@@ -24,7 +24,7 @@
        <enum>QTabWidget::TabShape::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -53,7 +53,45 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QTableWidget" name="realTimeSecurity"/>
+         <widget class="QTableWidget" name="realTimeSecurity">
+          <property name="styleSheet">
+           <string notr="true">QTableWidget {
+    background-color: white;
+    border: 2px solid #ccc;
+    font-size: 14px;
+}
+QTableWidget::item {
+    padding: 5px;
+}
+QTableWidget::item:selected {
+    background-color: #7fffd4;
+}
+QHeaderView::section {
+    background-color: #f0f0f0;
+    padding: 5px;
+    border: 1px solid gray;
+    font-weight: bold;
+    font-size: 16px;
+}
+QTableWidget::horizontalHeader {
+    background-color: #d3d3d3;
+    font-size: 16px;
+    border-bottom: 2px solid #bbb;
+}
+QTableWidget::verticalHeader {
+    background-color: #d3d3d3;
+    font-size: 16px;
+    border-right: 2px solid #bbb;
+}
+QTableWidget::item:even {
+    background-color: #f9f9f9;
+}
+QTableWidget::item:odd {
+    background-color: #ffffff;
+}
+</string>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -65,7 +103,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_5">
+           <widget class="QPushButton" name="extractGeneralLogs">
             <property name="text">
              <string>Extract</string>
             </property>
@@ -76,7 +114,7 @@
         <item>
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>6</number>
+           <number>1</number>
           </property>
           <property name="tabBarAutoHide">
            <bool>false</bool>
@@ -219,7 +257,7 @@
         <item>
          <widget class="QTabWidget" name="tabWidget_4">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_14">
            <attribute name="title">
@@ -231,20 +269,6 @@
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout">
-                <item>
-                 <widget class="QLabel" name="label">
-                  <property name="text">
-                   <string>Refresh Timer</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSpinBox" name="refreshTimer"/>
-                </item>
-               </layout>
-              </item>
               <item>
                <widget class="QPushButton" name="pushButton_12">
                 <property name="text">
@@ -339,6 +363,16 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_16">
+       <attribute name="title">
+        <string>Network Logs</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_16">
+        <item>
+         <widget class="QTableWidget" name="networkConnections"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -356,5 +390,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_12</sender>
+   <signal>clicked()</signal>
+   <receiver>realtimeProcess</receiver>
+   <slot>clearContents()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>237</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>240</x>
+     <y>469</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -13,11 +13,9 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
@@ -37,7 +35,7 @@ public:
     QTableWidget *realTimeSecurity;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *pushButton;
-    QPushButton *pushButton_5;
+    QPushButton *extractGeneralLogs;
     QTabWidget *tabWidget_2;
     QWidget *tab_3;
     QVBoxLayout *verticalLayout_10;
@@ -74,9 +72,6 @@ public:
     QVBoxLayout *verticalLayout_14;
     QTableWidget *realtimeProcess;
     QHBoxLayout *horizontalLayout_5;
-    QHBoxLayout *horizontalLayout;
-    QLabel *label;
-    QSpinBox *refreshTimer;
     QPushButton *pushButton_12;
     QWidget *tab_15;
     QVBoxLayout *verticalLayout_15;
@@ -97,6 +92,9 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
+    QWidget *tab_16;
+    QVBoxLayout *verticalLayout_16;
+    QTableWidget *networkConnections;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -125,6 +123,41 @@ public:
         verticalLayout->setObjectName("verticalLayout");
         realTimeSecurity = new QTableWidget(tab);
         realTimeSecurity->setObjectName("realTimeSecurity");
+        realTimeSecurity->setStyleSheet(QString::fromUtf8("QTableWidget {\n"
+"    background-color: white;\n"
+"    border: 2px solid #ccc;\n"
+"    font-size: 14px;\n"
+"}\n"
+"QTableWidget::item {\n"
+"    padding: 5px;\n"
+"}\n"
+"QTableWidget::item:selected {\n"
+"    background-color: #7fffd4;\n"
+"}\n"
+"QHeaderView::section {\n"
+"    background-color: #f0f0f0;\n"
+"    padding: 5px;\n"
+"    border: 1px solid gray;\n"
+"    font-weight: bold;\n"
+"    font-size: 16px;\n"
+"}\n"
+"QTableWidget::horizontalHeader {\n"
+"    background-color: #d3d3d3;\n"
+"    font-size: 16px;\n"
+"    border-bottom: 2px solid #bbb;\n"
+"}\n"
+"QTableWidget::verticalHeader {\n"
+"    background-color: #d3d3d3;\n"
+"    font-size: 16px;\n"
+"    border-right: 2px solid #bbb;\n"
+"}\n"
+"QTableWidget::item:even {\n"
+"    background-color: #f9f9f9;\n"
+"}\n"
+"QTableWidget::item:odd {\n"
+"    background-color: #ffffff;\n"
+"}\n"
+""));
 
         verticalLayout->addWidget(realTimeSecurity);
 
@@ -135,10 +168,10 @@ public:
 
         horizontalLayout_3->addWidget(pushButton);
 
-        pushButton_5 = new QPushButton(tab);
-        pushButton_5->setObjectName("pushButton_5");
+        extractGeneralLogs = new QPushButton(tab);
+        extractGeneralLogs->setObjectName("extractGeneralLogs");
 
-        horizontalLayout_3->addWidget(pushButton_5);
+        horizontalLayout_3->addWidget(extractGeneralLogs);
 
 
         verticalLayout->addLayout(horizontalLayout_3);
@@ -274,21 +307,6 @@ public:
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName("horizontalLayout_5");
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName("horizontalLayout");
-        label = new QLabel(tab_14);
-        label->setObjectName("label");
-
-        horizontalLayout->addWidget(label);
-
-        refreshTimer = new QSpinBox(tab_14);
-        refreshTimer->setObjectName("refreshTimer");
-
-        horizontalLayout->addWidget(refreshTimer);
-
-
-        horizontalLayout_5->addLayout(horizontalLayout);
-
         pushButton_12 = new QPushButton(tab_14);
         pushButton_12->setObjectName("pushButton_12");
 
@@ -372,6 +390,16 @@ public:
         verticalLayout_8->addLayout(horizontalLayout_4);
 
         tabWidget->addTab(tab_2, QString());
+        tab_16 = new QWidget();
+        tab_16->setObjectName("tab_16");
+        verticalLayout_16 = new QVBoxLayout(tab_16);
+        verticalLayout_16->setObjectName("verticalLayout_16");
+        networkConnections = new QTableWidget(tab_16);
+        networkConnections->setObjectName("networkConnections");
+
+        verticalLayout_16->addWidget(networkConnections);
+
+        tabWidget->addTab(tab_16, QString());
 
         horizontalLayout_2->addWidget(tabWidget);
 
@@ -385,10 +413,11 @@ public:
         MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
+        QObject::connect(pushButton_12, &QPushButton::clicked, realtimeProcess, qOverload<>(&QTableWidget::clearContents));
 
-        tabWidget->setCurrentIndex(1);
-        tabWidget_2->setCurrentIndex(6);
-        tabWidget_4->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(1);
+        tabWidget_4->setCurrentIndex(1);
         tabWidget_3->setCurrentIndex(0);
 
 
@@ -399,7 +428,7 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "General Errors", nullptr));
-        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
+        extractGeneralLogs->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         pushButton_4->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Authentication Failure", nullptr));
         pushButton_6->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
@@ -415,7 +444,6 @@ public:
         pushButton_11->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_9), QCoreApplication::translate("MainWindow", "SIP Violations", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Security Logs", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "Refresh Timer", nullptr));
         pushButton_12->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
         tabWidget_4->setTabText(tabWidget_4->indexOf(tab_14), QCoreApplication::translate("MainWindow", "Realtime", nullptr));
         refreshRunning->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
@@ -427,6 +455,7 @@ public:
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "Open", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "File Changes", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_16), QCoreApplication::translate("MainWindow", "Network Logs", nullptr));
     } // retranslateUi
 
 };
