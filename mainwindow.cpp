@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    setCentralWidget((ui->tabWidget));
     ui->tabWidget_2->setVisible(false);
 
 
@@ -90,6 +90,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->networkConnections->horizontalHeader()->setStretchLastSection(true);
 
 
+    ui->loginMesseges->setColumnCount(6);//same thing as beofre
+    QStringList co = {"Username","TTY","Date","Time","Logout Time","Duration"};
+    ui->loginMesseges->setHorizontalHeaderLabels(co);
+    ui->loginMesseges->horizontalHeader()->setStretchLastSection(true);
+
 
     //SIGNAL SLOTS SECTION
 
@@ -118,7 +123,9 @@ MainWindow::MainWindow(QWidget *parent)
 
             ui->fileChangesUsers->setItem(0,0,new QTableWidgetItem(QDateTime::currentDateTime().toString("HH:mm:ss")));// it adds the time the log came as its not in the fswatch log output
             ui->fileChangesUsers->setItem(0,1,new QTableWidgetItem(out3));
-            }
+            QString searchText = ui->searchUserFiles->text().trimmed();
+            filterTableFileChangesUsers(searchText);
+        }
     });
 
     connect(fswatchProcessSecurity, &QProcess::readyReadStandardOutput, this, [this, fswatchProcessSecurity](){
@@ -127,6 +134,8 @@ MainWindow::MainWindow(QWidget *parent)
             ui->fileChangesSecurity->insertRow(0);
             ui->fileChangesSecurity->setItem(0, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString("HH:mm:ss")));
             ui->fileChangesSecurity->setItem(0, 1, new QTableWidgetItem(outSecurity));
+            QString searchText = ui->searchSecurityFiles->text().trimmed();
+            filterTableFileChangesSecurity(searchText);
         }
     });
 
@@ -136,10 +145,15 @@ MainWindow::MainWindow(QWidget *parent)
             ui->fileChangesDevelopement->insertRow(0);
             ui->fileChangesDevelopement->setItem(0, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString("HH:mm:ss")));
             ui->fileChangesDevelopement->setItem(0, 1, new QTableWidgetItem(outDevelopement));
+            QString searchText = ui->searchDevFiles->text().trimmed();
+            filterTableFileChangesDevelopment(searchText);
         }
     });
 
     connect(ui->refreshRunning, &QPushButton::clicked, this, &MainWindow::refresh_processList);
+
+    connect(ui->refreshLogin, &QPushButton::clicked, this, &MainWindow::loginMessege);
+
 
     QTimer *timer = new QTimer(this);
 
@@ -147,6 +161,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &MainWindow::networkProcess);
     timer->start(1000);  // Runs every 1000ms (1 second)
 
+    connect(ui->searchBarProcess, &QLineEdit::textChanged, this, &MainWindow::filterTableRealtimeProcess);
+
+    connect(ui->searchBarProcessRun, &QLineEdit::textChanged, this, &MainWindow::filterTableRealtimeProcessRun);
+
+    connect(ui->searchBarProcess, &QLineEdit::textChanged, this, &MainWindow::filterTableRealtimeProcess);
+    connect(ui->searchBarProcessRun, &QLineEdit::textChanged, this, &MainWindow::filterTableRealtimeProcessRun);
+    connect(ui->searchNetwork, &QLineEdit::textChanged, this, &MainWindow::filterTableNetworkConnections);
+    connect(ui->searchSecurityLogs, &QLineEdit::textChanged, this, &MainWindow::filterTableRealTimeSecurity);
+    connect(ui->searchAuth, &QLineEdit::textChanged, this, &MainWindow::filterTableRealTimeSecurityAuthFail);
+    connect(ui->searchSudo, &QLineEdit::textChanged, this, &MainWindow::filterTableRealTimeSecuritySudoFail);
+    connect(ui->searchCode, &QLineEdit::textChanged, this, &MainWindow::filterTableRealTimeSecurityCodeSignIssue);
+    connect(ui->searchGate, &QLineEdit::textChanged, this, &MainWindow::filterTableRealTimeSecurityGatekeeper);
+    connect(ui->searchKey, &QLineEdit::textChanged, this, &MainWindow::filterTableRealTimeSecurityKeychain);
+    connect(ui->searchUserFiles, &QLineEdit::textChanged, this, &MainWindow::filterTableFileChangesUsers);
+    connect(ui->searchSecurityFiles, &QLineEdit::textChanged, this, &MainWindow::filterTableFileChangesSecurity);
+    connect(ui->searchDevFiles, &QLineEdit::textChanged, this, &MainWindow::filterTableFileChangesDevelopment);
+    connect(ui->searchLogin, &QLineEdit::textChanged, this, &MainWindow::filterTableLogin);
 
 
     // connect(processTimer, &QTimer::timeout, this, &MainWindow::refresh_topProcess);
@@ -195,6 +226,7 @@ void MainWindow::splitNshow(const QString &logEntry,const QString &defaultType)/
     ui->realTimeSecurity->setItem(0,2,new QTableWidgetItem(activity));
     ui->realTimeSecurity->setItem(0,3,new QTableWidgetItem(pid));
     ui->realTimeSecurity->setItem(0,4,new QTableWidgetItem(message));
+
 
     if (message.contains("authentication", Qt::CaseInsensitive)) { // this makes sure that the failed auth messege individually also goes to the the failed auth table
         ui->realTimeSecurityAuthFail->insertRow(0);
@@ -285,6 +317,9 @@ void MainWindow::refresh_topProcess() {
     }
     QString command = colum.mid(9).join(" ");
     ui->realtimeProcess->setItem(0, 9, new QTableWidgetItem(command));
+    QString searchText = ui->searchBarProcess->text().trimmed();
+    filterTableRealtimeProcess(searchText);
+
 }
 
 void MainWindow::networkProcess(){
@@ -308,8 +343,221 @@ void MainWindow::networkProcess(){
     }
 
 }
+void MainWindow::loginMessege() {
+    QProcess runProcess;
+    runProcess.start("sh", QStringList() << "-c" << "last");  // Fetch login history
+    runProcess.waitForFinished();
+
+    QString out4 = runProcess.readAllStandardOutput();
+    QStringList lines = out4.split("\n", Qt::SkipEmptyParts);
+    ui->loginMesseges->setRowCount(0);
 
 
+    for (const QString &line : lines) {
+        QStringList colum = line.split(" ", Qt::SkipEmptyParts);
+        if (colum.size() < 9) continue;  // Skip malformed lines
+
+        QString username = colum[0];
+        QString tty = colum[1];
+        QString date = colum[2] + " " + colum[3] + " " + colum[4];  // Combine the date fields
+        QString time = colum[5];
+        QString logoutTime = colum[7];
+        QString duration = colum[8];
+
+        int row = ui->loginMesseges->rowCount();
+        ui->loginMesseges->insertRow(row);
+
+        ui->loginMesseges->setItem(row, 0, new QTableWidgetItem(username));
+        ui->loginMesseges->setItem(row, 1, new QTableWidgetItem(tty));
+        ui->loginMesseges->setItem(row, 2, new QTableWidgetItem(date));
+        ui->loginMesseges->setItem(row, 3, new QTableWidgetItem(time));
+        ui->loginMesseges->setItem(row, 4, new QTableWidgetItem(logoutTime));
+        ui->loginMesseges->setItem(row, 5, new QTableWidgetItem(duration));
+    }
+}
+
+void MainWindow::filterTableRealtimeProcess(const QString &text) {
+    for (int i = 0; i < ui->realtimeProcess->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->realtimeProcess->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->realtimeProcess->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->realtimeProcess->setRowHidden(i, !match);
+    }
+}
+
+
+void MainWindow::filterTableRealtimeProcessRun(const QString &text) {
+    for (int i = 0; i < ui->runningProcess->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->runningProcess->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->runningProcess->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->runningProcess->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableNetworkConnections(const QString &text) {
+    for (int i = 0; i < ui->networkConnections->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->networkConnections->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->networkConnections->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->networkConnections->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableRealTimeSecurity(const QString &text) {
+    for (int i = 0; i < ui->realTimeSecurity->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->realTimeSecurity->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->realTimeSecurity->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->realTimeSecurity->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableRealTimeSecurityAuthFail(const QString &text) {
+    for (int i = 0; i < ui->realTimeSecurityAuthFail->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->realTimeSecurityAuthFail->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->realTimeSecurityAuthFail->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->realTimeSecurityAuthFail->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableRealTimeSecuritySudoFail(const QString &text) {
+    for (int i = 0; i < ui->realTimeSecuritySudoFail->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->realTimeSecuritySudoFail->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->realTimeSecuritySudoFail->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->realTimeSecuritySudoFail->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableRealTimeSecurityCodeSignIssue(const QString &text) {
+    for (int i = 0; i < ui->realTimeSecurityCodeSignIssue->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->realTimeSecurityCodeSignIssue->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->realTimeSecurityCodeSignIssue->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->realTimeSecurityCodeSignIssue->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableRealTimeSecurityGatekeeper(const QString &text) {
+    for (int i = 0; i < ui->realTimeSecurityGatekeeper->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->realTimeSecurityGatekeeper->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->realTimeSecurityGatekeeper->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->realTimeSecurityGatekeeper->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableRealTimeSecurityKeychain(const QString &text) {
+    for (int i = 0; i < ui->realTimeSecurityKeychain->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->realTimeSecurityKeychain->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->realTimeSecurityKeychain->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->realTimeSecurityKeychain->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableFileChangesUsers(const QString &text) {
+    for (int i = 0; i < ui->fileChangesUsers->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->fileChangesUsers->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->fileChangesUsers->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->fileChangesUsers->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableFileChangesSecurity(const QString &text) {
+    for (int i = 0; i < ui->fileChangesSecurity->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->fileChangesSecurity->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->fileChangesSecurity->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->fileChangesSecurity->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableFileChangesDevelopment(const QString &text) {
+    for (int i = 0; i < ui->fileChangesDevelopement->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->fileChangesDevelopement->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->fileChangesDevelopement->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->fileChangesDevelopement->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::filterTableLogin(const QString &text) {
+    for (int i = 0; i < ui->loginMesseges->rowCount(); ++i) {
+        bool match = false;
+        for (int j = 0; j < ui->loginMesseges->columnCount(); ++j) {
+            QTableWidgetItem *item = ui->loginMesseges->item(i, j);
+            if (item && item->text().contains(text, Qt::CaseInsensitive)) {
+                match = true;
+                break;
+            }
+        }
+        ui->loginMesseges->setRowHidden(i, !match);
+    }
+}
 MainWindow::~MainWindow()
 {
     delete ui;

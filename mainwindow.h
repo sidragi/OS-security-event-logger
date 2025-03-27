@@ -24,7 +24,20 @@ private slots:
     void refresh_processList();// this function is declared so on clicking the refresh button you will get the current running root processes
     void refresh_topProcess();//this will get the highet process with cpu usage
     void networkProcess();//same as the above ones used to updat ethe process
-
+    void loginMessege();
+    void filterTableRealtimeProcess(const QString &text);
+    void filterTableRealtimeProcessRun(const QString &text);
+    void filterTableNetworkConnections(const QString &text);
+    void filterTableRealTimeSecurity(const QString &text);
+    void filterTableRealTimeSecurityAuthFail(const QString &text);
+    void filterTableRealTimeSecuritySudoFail(const QString &text);
+    void filterTableRealTimeSecurityCodeSignIssue(const QString &text);
+    void filterTableRealTimeSecurityGatekeeper(const QString &text);
+    void filterTableRealTimeSecurityKeychain(const QString &text);
+    void filterTableFileChangesUsers(const QString &text);
+    void filterTableFileChangesSecurity(const QString &text);
+    void filterTableFileChangesDevelopment(const QString &text);
+    void filterTableLogin(const QString &text);
 private:
     Ui::MainWindow *ui;
     void splitNshow(const QString &logEntry, const QString &defaultType);
