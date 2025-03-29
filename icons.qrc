@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/new/icons">
+        <file>SystemLogs1.png</file>
+        <file>ProgramLogs.png</file>
+        <file>NetworkLogs.png</file>
+        <file>FileChanges.png</file>
+    </qresource>
+</RCC>

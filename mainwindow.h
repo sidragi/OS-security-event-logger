@@ -7,7 +7,7 @@
 #include<QTimer>
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class mainWindow;
 }
 QT_END_NAMESPACE
 
@@ -39,7 +39,7 @@ private slots:
     void filterTableFileChangesDevelopment(const QString &text);
     void filterTableLogin(const QString &text);
 private:
-    Ui::MainWindow *ui;
+    Ui::mainWindow *ui;
     void splitNshow(const QString &logEntry, const QString &defaultType);
     QString customPathText = "Users/";//the custom path text is used to store the user entered value
     QTimer *processTimer;// this is there so the program can update the top process over a period of time

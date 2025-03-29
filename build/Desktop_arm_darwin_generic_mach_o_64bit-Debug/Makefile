@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../../main.cpp \
-		../../mainwindow.cpp moc_mainwindow.cpp
+		../../mainwindow.cpp qrc_icons.cpp \
+		moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		qrc_icons.o \
 		moc_mainwindow.o
 DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/device_config.prf \
@@ -391,6 +393,7 @@ DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/qt_config.prf \
 		/opt/homebrew/share/qt/mkspecs/macx-clang/qmake.conf \
 		/opt/homebrew/share/qt/mkspecs/features/spec_post.prf \
+		../../.qmake.stash \
 		/opt/homebrew/share/qt/mkspecs/features/exclusive_builds.prf \
 		/opt/homebrew/share/qt/mkspecs/features/mac/sdk.prf \
 		/opt/homebrew/share/qt/mkspecs/features/toolchain.prf \
@@ -430,7 +433,7 @@ TARGET        = OS-final.app/Contents/MacOS/OS-final
 EXPORT_QMAKE_MAC_SDK = macosx
 EXPORT_QMAKE_MAC_SDK_VERSION = 15.2
 EXPORT_QMAKE_XCODE_DEVELOPER_PATH = /Applications/Xcode.app/Contents/Developer
-EXPORT__QMAKE_STASH_ = 
+EXPORT__QMAKE_STASH_ = /Users/sidlahiri/Desktop/programs/qt-proj/OS-final/build/Desktop_arm_darwin_generic_mach_o_64bit-Debug/.qmake.stash
 EXPORT_VALID_ARCHS = arm64
 EXPORT_DEFAULT_ARCHS = arm64
 EXPORT_ARCHS = $(filter $(EXPORT_VALID_ARCHS), $(if $(ARCHS), $(ARCHS), $(if $(EXPORT_DEFAULT_ARCHS), $(EXPORT_DEFAULT_ARCHS), $(EXPORT_VALID_ARCHS))))
@@ -780,6 +783,7 @@ Makefile: ../../OS-final.pro /opt/homebrew/share/qt/mkspecs/macx-clang/qmake.con
 		/opt/homebrew/share/qt/mkspecs/features/qt_config.prf \
 		/opt/homebrew/share/qt/mkspecs/macx-clang/qmake.conf \
 		/opt/homebrew/share/qt/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/opt/homebrew/share/qt/mkspecs/features/exclusive_builds.prf \
 		/opt/homebrew/share/qt/mkspecs/features/mac/sdk.prf \
 		/opt/homebrew/share/qt/mkspecs/features/toolchain.prf \
@@ -810,6 +814,7 @@ Makefile: ../../OS-final.pro /opt/homebrew/share/qt/mkspecs/macx-clang/qmake.con
 		/opt/homebrew/share/qt/mkspecs/features/yacc.prf \
 		/opt/homebrew/share/qt/mkspecs/features/lex.prf \
 		../../OS-final.pro \
+		../../icons.qrc \
 		/opt/homebrew/lib/QtWidgets.framework/Resources/QtWidgets.prl \
 		/opt/homebrew/lib/QtGui.framework/Resources/QtGui.prl \
 		/opt/homebrew/lib/QtCore.framework/Resources/QtCore.prl
@@ -1148,6 +1153,7 @@ Makefile: ../../OS-final.pro /opt/homebrew/share/qt/mkspecs/macx-clang/qmake.con
 /opt/homebrew/share/qt/mkspecs/features/qt_config.prf:
 /opt/homebrew/share/qt/mkspecs/macx-clang/qmake.conf:
 /opt/homebrew/share/qt/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /opt/homebrew/share/qt/mkspecs/features/exclusive_builds.prf:
 /opt/homebrew/share/qt/mkspecs/features/mac/sdk.prf:
 /opt/homebrew/share/qt/mkspecs/features/toolchain.prf:
@@ -1178,6 +1184,7 @@ Makefile: ../../OS-final.pro /opt/homebrew/share/qt/mkspecs/macx-clang/qmake.con
 /opt/homebrew/share/qt/mkspecs/features/yacc.prf:
 /opt/homebrew/share/qt/mkspecs/features/lex.prf:
 ../../OS-final.pro:
+../../icons.qrc:
 /opt/homebrew/lib/QtWidgets.framework/Resources/QtWidgets.prl:
 /opt/homebrew/lib/QtGui.framework/Resources/QtGui.prl:
 /opt/homebrew/lib/QtCore.framework/Resources/QtCore.prl:
@@ -1205,6 +1212,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../../icons.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp $(DISTDIR)/
@@ -1218,6 +1226,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) -r OS-final.app
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -1234,8 +1243,17 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_icons.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_icons.cpp
+qrc_icons.cpp: ../../icons.qrc \
+		/opt/homebrew/share/qt/libexec/rcc \
+		../../NetworkLogs.png \
+		../../SystemLogs1.png \
+		../../FileChanges.png \
+		../../ProgramLogs.png
+	/opt/homebrew/share/qt/libexec/rcc -name icons ../../icons.qrc -o qrc_icons.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -1248,6 +1266,12 @@ compiler_moc_header_clean:
 moc_mainwindow.cpp: ../../mainwindow.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QTableWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qtablewidget.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QDateTime \
+		/opt/homebrew/lib/QtCore.framework/Headers/qdatetime.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QTimer \
+		/opt/homebrew/lib/QtCore.framework/Headers/qtimer.h \
 		moc_predefs.h \
 		/opt/homebrew/share/qt/libexec/moc
 	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include /Users/sidlahiri/Desktop/programs/qt-proj/OS-final/build/Desktop_arm_darwin_generic_mach_o_64bit-Debug/moc_predefs.h -I/opt/homebrew/share/qt/mkspecs/macx-clang -I/Users/sidlahiri/Desktop/programs/qt-proj/OS-final -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/opt/homebrew/lib ../../mainwindow.h -o moc_mainwindow.cpp
@@ -1271,13 +1295,19 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
 main.o: ../../main.cpp ../../mainwindow.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QTableWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qtablewidget.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QDateTime \
+		/opt/homebrew/lib/QtCore.framework/Headers/qdatetime.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QTimer \
+		/opt/homebrew/lib/QtCore.framework/Headers/qtimer.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QApplication \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
@@ -1285,8 +1315,22 @@ main.o: ../../main.cpp ../../mainwindow.h \
 mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		ui_mainwindow.h
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QTableWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qtablewidget.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QDateTime \
+		/opt/homebrew/lib/QtCore.framework/Headers/qdatetime.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QTimer \
+		/opt/homebrew/lib/QtCore.framework/Headers/qtimer.h \
+		ui_mainwindow.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QProcess \
+		/opt/homebrew/lib/QtCore.framework/Headers/qprocess.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QTableWidgetItem \
+		/opt/homebrew/lib/QtCore.framework/Headers/QDebug \
+		/opt/homebrew/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
+
+qrc_icons.o: qrc_icons.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_icons.o qrc_icons.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

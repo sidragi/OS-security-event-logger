@@ -5,10 +5,11 @@
 #include<QDebug>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::mainWindow)
 {
     ui->setupUi(this);
-    setCentralWidget((ui->tabWidget));
+    setCentralWidget((ui->mainTab));
+
     ui->tabWidget_2->setVisible(false);
 
 

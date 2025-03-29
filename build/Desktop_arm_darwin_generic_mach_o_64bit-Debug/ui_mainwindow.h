@@ -25,12 +25,12 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_MainWindow
+class Ui_mainWindow
 {
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_19;
-    QTabWidget *tabWidget;
+    QTabWidget *mainTab;
     QWidget *tab;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_3;
@@ -154,25 +154,315 @@ public:
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
-    void setupUi(QMainWindow *MainWindow)
+    void setupUi(QMainWindow *mainWindow)
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(919, 600);
-        centralwidget = new QWidget(MainWindow);
+        if (mainWindow->objectName().isEmpty())
+            mainWindow->setObjectName("mainWindow");
+        mainWindow->resize(1387, 780);
+        mainWindow->setStyleSheet(QString::fromUtf8("/* Main window styling */\n"
+"QMainWindow#mainWindow {\n"
+"  background-color: #201c34; /* Dark purple background */\n"
+"  color: white; /* White text */\n"
+"}\n"
+"\n"
+"/* Central widget styling */\n"
+"QMainWindow#mainWindow > QWidget {\n"
+"  background-color: #201c34; /* Darker background */\n"
+"  color: white; /* White text */\n"
+"}\n"
+"\n"
+"/* Button styling */\n"
+"QPushButton {\n"
+"  background-color: #8464A0; /* Light purple */\n"
+"  color: white; /* White text */\n"
+"  border-radius: 8px; /* Rounded corners */\n"
+"  padding: 4px 8px; /* Button padding */\n"
+"  margin-left: 8px; /* Left margin */\n"
+"  margin-right: 8px; /* Right margin */\n"
+"  font-size: 13px; /* Font size */\n"
+"}\n"
+"\n"
+"/* Button hover effect */\n"
+"QPushButton:hover {\n"
+"  background-color: #3B2E64; /* Dark purple on hover */\n"
+"}\n"
+"\n"
+"/* Table widget styling */\n"
+"QTableWidget {\n"
+"  background-color: #3A295F; /* Dark purple background */\n"
+"  color: white; /* White text */\n"
+"  border: none; /* Remove default border */\n"
+""
+                        "  gridline-color: #5A478D; /* Gridline color */\n"
+"  selection-background-color: #5A478D; /* Selected row background */\n"
+"}\n"
+"\n"
+"/* Table corner button styling */\n"
+"QTableWidget::corner {\n"
+"  background-color: #2E1F4D; /* Darker background */\n"
+"  border: none; /* Remove default border */\n"
+"}\n"
+"\n"
+"/* Header styling for both vertical and horizontal */\n"
+"QHeaderView:vertical, QHeaderView:horizontal {\n"
+"  background-color: #2E1F4D; /* Dark purple */\n"
+"  color: white; /* White text */\n"
+"}\n"
+"\n"
+"/* Table header section styling */\n"
+"QHeaderView::section {\n"
+"  background-color: #2E1F4D; /* Dark purple */\n"
+"  color: white; /* White text */\n"
+"  border: none; /* Remove default borders */\n"
+"  min-width: 40px; /* Header width */\n"
+"  font-size: 14px; /* Font size */\n"
+"  padding: 6px; /* Padding for headers */\n"
+"}\n"
+"\n"
+"/* Line Edit widget styling */\n"
+"QLineEdit {\n"
+"  background-color: #52416C; /* Muted grayish purple */\n"
+"  color: white; /* White text */\n"
+"  border: 1"
+                        "px solid #6A5A94; /* Subtle border */\n"
+"  border-radius: 6px; /* Rounded corners */\n"
+"  padding: 4px 8px; /* Padding inside the input */\n"
+"}\n"
+"\n"
+"/* Tab widget styling */\n"
+"QTabWidget {\n"
+"  background-color: #3B2E64; /* Darker background */\n"
+"  border: none; /* Remove default border */\n"
+"}\n"
+"\n"
+"/* Tab bar styling */\n"
+"QTabWidget > QTabBar::tab {\n"
+"  background-color: #392C60; /* Slightly lighter tab color */\n"
+"  color: white; /* White text */\n"
+"  padding: 8px 15px; /* Padding inside the tab */\n"
+"  border-top-left-radius: 8px; /* Rounded top-left corner */\n"
+"  border-top-right-radius: 8px; /* Rounded top-right corner */\n"
+"}\n"
+"\n"
+"/* Selected tab styling */\n"
+"QTabWidget > QTabBar::tab:selected {\n"
+"  background-color: #443275; /* Highlighted tab color */\n"
+"}\n"
+"\n"
+"/* Specific tab widget styles */\n"
+"QTabWidget#mainTab, \n"
+"QTabWidget#tabWidget_5 {\n"
+"  background-color: #201c34; /* Darker background */\n"
+"  border: none; /* Remove default border */\n"
+"}\n"
+"\n"
+""
+                        "/* Tab bar styling for specific tabs */\n"
+"QTabWidget#mainTab > QTabBar::tab, \n"
+"QTabWidget#tabWidget_5 > QTabBar::tab {\n"
+"  background-color: #27213D; /* Slightly lighter tab color */\n"
+"  color: white; /* White text */\n"
+"  padding: 8px 15px; /* Padding inside the tab */\n"
+"  border-top-left-radius: 8px; /* Rounded top-left corner */\n"
+"  \n"
+"}\n"
+"\n"
+"/* Selected tab styling for specific tabs */\n"
+"QTabWidget#mainTab > QTabBar::tab:selected, \n"
+"QTabWidget#tabWidget_5 > QTabBar::tab:selected {\n"
+"  background-color: #443275; /* Highlighted tab color */\n"
+"}\n"
+"QTabWidget#tabWidget_2 { \n"
+"  background-color: #3B2E64; /* Darker background */\n"
+"  border: none; /* Remove default border */\n"
+"}\n"
+"\n"
+"/* Style the tab bar */\n"
+"QTabWidget#tabWidget_2 > QTabBar::tab { \n"
+"  background-color: #392C60; /* Slightly lighter tab color */\n"
+"  color: white; /* Text color */\n"
+"  padding: 8px 15px; /* Spacing inside the tab */\n"
+"  border-top-left-radius: 8px; /* Rounded top-left */\n"
+"  bor"
+                        "der-top-right-radius: 8px; /* Rounded top-right */\n"
+"}\n"
+"\n"
+"/* Selected tab */\n"
+"QTabWidget#tabWidget_2 > QTabBar::tab:selected { \n"
+"  background-color: #553D94; /* Highlighted tab color */\n"
+"}\n"
+"\n"
+"\n"
+"/* MainTab styling */\n"
+"QTabWidget#mainTab {\n"
+"  background-color: #201c34; /* Darker background */\n"
+"  border: none; /* Remove default border */\n"
+"}\n"
+"\n"
+"QTabWidget#mainTab > QTabBar::tab {\n"
+"  background-color: #27213D; /* Slightly lighter tab color */\n"
+"  color: white; /* Text color */\n"
+"  padding: 8px 15px; /* Padding inside the tab */\n"
+"  border-top-left-radius: 8px; /* Rounded top-left corner */\n"
+"  border-bottom-left-radius: 8px; /* Rounded bottom-left corner */\n"
+"  margin-top: 15px; /* Top margin */\n"
+"  margin-bottom: 15px; /* Bottom margin */\n"
+"}\n"
+"\n"
+"/* Selected tab style in mainTab */\n"
+"QTabWidget#mainTab > QTabBar::tab:selected {\n"
+"  background-color: #332856; /* Highlighted tab color */\n"
+"}\n"
+"\n"
+"/* Widget tab styles */\n"
+"QWidget#tab, \n"
+""
+                        "QWidget#tab_2,  \n"
+"QWidget#tab_4, \n"
+"QWidget#tab_5, \n"
+"QWidget#tab_6, \n"
+"QWidget#tab_7, \n"
+"QWidget#tab_8, \n"
+"QWidget#tab_13, \n"
+"QWidget#tab_15,\n"
+"QWidget#tab_16 {\n"
+"  background-color: #332856; /* Darker background */\n"
+"  color: white; /* White text */\n"
+"  border-radius: 10px; /* Rounded corners */\n"
+"}\n"
+"QWidget#tab_17 { \n"
+"  background-color: #443275; /* Darker background */\n"
+"  color: white; /* Default text color */\n"
+"  border-radius: 10px; /* Rounded corners */\n"
+"  overflow: hidden; /* Ensures content respects border-radius */\n"
+"}\n"
+"QWidget#tab_9 { \n"
+"  background-color: #553D94; /* Darker background */\n"
+"  color: white; /* Default text color */\n"
+"  border-radius: 6px; /* Rounded corners */\n"
+"}\n"
+"\n"
+"QWidget#tab_3,\n"
+"QWidget#tab_4,\n"
+"QWidget#tab_5,\n"
+"QWidget#tab_6,\n"
+"QWidget#tab_7,\n"
+"QWidget#tab_8,\n"
+"QWidget#tab_9 { \n"
+"  background-color: #553D94; /* Darker background */\n"
+"  color: white; /* Default text color */\n"
+"  border-radius: 6px; /* R"
+                        "ounded corners */\n"
+"}\n"
+"\n"
+"\n"
+"QWidget#tab_14,QWidget#tab_15,QWidget#tab_18{\n"
+"  background-color: #443275; /* Darker background */\n"
+"  color: white; /* White text */\n"
+"  border-radius: 10px; /* Rounded corners */\n"
+"}\n"
+"\n"
+"/* Special case for tabs that require hidden overflow */\n"
+"QWidget#tab_14, \n"
+"QWidget#tab_15,\n"
+"QWidget#tab_10, \n"
+"QWidget#tab_11, \n"
+"QWidget#tab_12 {\n"
+"  overflow: hidden; /* Ensures content respects border-radius */\n"
+"}\n"
+"\n"
+"/* Styling for tab_12 */\n"
+"QWidget#tab_10, \n"
+"QWidget#tab_11, \n"
+"QWidget#tab_12  {\n"
+"  background-color: #443275; /* Darker background */\n"
+"  color: white; /* Default text color */\n"
+"  border-radius: 10px; /* Rounded corners */\n"
+"  overflow: hidden; /* Ensures content respects border-radius */\n"
+"}\n"
+"\n"
+"/* Button styling for specific buttons */\n"
+"QPushButton#extractGeneralLogs, \n"
+"QPushButton#clearEventButton {\n"
+"  background-color: #8464A0; /* Light purple */\n"
+"  color: white; /* White text */\n"
+"  borde"
+                        "r-radius: 10px; /* Rounded corners */\n"
+"  padding: 3px 6px; /* Padding inside the button */\n"
+"  margin-left: 10px; /* Left margin */\n"
+"  margin-right: 10px; /* Right margin */\n"
+"}\n"
+"\n"
+"/* Button hover effect for specific buttons */\n"
+"QPushButton#extractGeneralLogs:hover, \n"
+"QPushButton#clearEventButton:hover {\n"
+"  background-color: #3B2E64; /* Dark purple on hover */\n"
+"}\n"
+"\n"
+"/* Real-time security table styling (now applied to all tables) */\n"
+"QTableWidget {\n"
+"  background-color: #3A295F; /* Dark purple background */\n"
+"  color: white; /* White text */\n"
+"  border: none; /* Remove default border */\n"
+"  gridline-color: #5A478D; /* Gridline color */\n"
+"  selection-background-color: #5A478D; /* Selected row background */\n"
+"}\n"
+"\n"
+"/* Table corner button styling for all tables */\n"
+"QTableWidget::corner {\n"
+"  background-color: #2E1F4D; /* Darker background */\n"
+"  border: none; /* Remove default border */\n"
+"}\n"
+"\n"
+"/* Header styling for all tables */\n"
+"QHeaderView:v"
+                        "ertical, QHeaderView:horizontal {\n"
+"  background-color: #2E1F4D; /* Dark purple */\n"
+"  color: white; /* White text */\n"
+"}\n"
+"\n"
+"/* Table header section styling for all tables */\n"
+"QHeaderView::section {\n"
+"  background-color: #2E1F4D; /* Dark purple */\n"
+"  color: white; /* White text */\n"
+"  border: none; /* Remove default borders */\n"
+"  min-width: 40px; /* Vertical header width */\n"
+"  font-size: 14px; /* Font size */\n"
+"  padding: 6px; /* Padding for headers */\n"
+"}\n"
+"\n"
+"/* Real-time security item styling for all tables */\n"
+"QTableWidget QTableWidgetItem {\n"
+"  color: white; /* Force white text for all items */\n"
+"}\n"
+"\n"
+"/* Real-time security corner button styling for all tables */\n"
+"QTableWidget QTableCornerButton::section {\n"
+"  background-color: #2E1F4D; /* Dark purple */\n"
+"  border: none; /* Remove default border */\n"
+"}\n"
+""));
+        mainWindow->setIconSize(QSize(48, 48));
+        mainWindow->setAnimated(false);
+        centralwidget = new QWidget(mainWindow);
         centralwidget->setObjectName("centralwidget");
         verticalLayout_19 = new QVBoxLayout(centralwidget);
         verticalLayout_19->setObjectName("verticalLayout_19");
-        tabWidget = new QTabWidget(centralwidget);
-        tabWidget->setObjectName("tabWidget");
-        tabWidget->setTabPosition(QTabWidget::TabPosition::West);
-        tabWidget->setTabShape(QTabWidget::TabShape::Rounded);
-        tabWidget->setIconSize(QSize(32, 32));
-        tabWidget->setElideMode(Qt::TextElideMode::ElideRight);
-        tabWidget->setUsesScrollButtons(false);
-        tabWidget->setTabsClosable(false);
-        tabWidget->setMovable(false);
-        tabWidget->setTabBarAutoHide(false);
+        mainTab = new QTabWidget(centralwidget);
+        mainTab->setObjectName("mainTab");
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(mainTab->sizePolicy().hasHeightForWidth());
+        mainTab->setSizePolicy(sizePolicy);
+        mainTab->setFocusPolicy(Qt::FocusPolicy::TabFocus);
+        mainTab->setTabPosition(QTabWidget::TabPosition::West);
+        mainTab->setTabShape(QTabWidget::TabShape::Rounded);
+        mainTab->setIconSize(QSize(86, 86));
+        mainTab->setElideMode(Qt::TextElideMode::ElideNone);
+        mainTab->setUsesScrollButtons(false);
+        mainTab->setTabsClosable(false);
+        mainTab->setMovable(false);
         tab = new QWidget();
         tab->setObjectName("tab");
         verticalLayout = new QVBoxLayout(tab);
@@ -204,6 +494,7 @@ public:
 
         extractGeneralLogs = new QPushButton(tab_17);
         extractGeneralLogs->setObjectName("extractGeneralLogs");
+        extractGeneralLogs->setStyleSheet(QString::fromUtf8(""));
 
         horizontalLayout->addWidget(extractGeneralLogs);
 
@@ -475,7 +766,9 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_3);
 
-        tabWidget->addTab(tab, QString());
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/new/icons/SystemLogs1.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        mainTab->addTab(tab, icon, QString());
         tab_13 = new QWidget();
         tab_13->setObjectName("tab_13");
         verticalLayout_13 = new QVBoxLayout(tab_13);
@@ -550,13 +843,16 @@ public:
 
         verticalLayout_13->addWidget(tabWidget_4);
 
-        tabWidget->addTab(tab_13, QString());
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/new/icons/ProgramLogs.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        mainTab->addTab(tab_13, icon1, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName("tab_2");
         verticalLayout_8 = new QVBoxLayout(tab_2);
         verticalLayout_8->setObjectName("verticalLayout_8");
         tabWidget_3 = new QTabWidget(tab_2);
         tabWidget_3->setObjectName("tabWidget_3");
+        tabWidget_3->setStyleSheet(QString::fromUtf8(""));
         tab_10 = new QWidget();
         tab_10->setObjectName("tab_10");
         verticalLayout_9 = new QVBoxLayout(tab_10);
@@ -655,7 +951,9 @@ public:
 
         verticalLayout_8->addLayout(horizontalLayout_4);
 
-        tabWidget->addTab(tab_2, QString());
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/new/icons/FileChanges.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        mainTab->addTab(tab_2, icon2, QString());
         tab_16 = new QWidget();
         tab_16->setObjectName("tab_16");
         verticalLayout_16 = new QVBoxLayout(tab_16);
@@ -685,20 +983,22 @@ public:
 
         verticalLayout_16->addLayout(horizontalLayout_17);
 
-        tabWidget->addTab(tab_16, QString());
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/new/icons/NetworkLogs.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        mainTab->addTab(tab_16, icon3, QString());
 
-        verticalLayout_19->addWidget(tabWidget);
+        verticalLayout_19->addWidget(mainTab);
 
-        MainWindow->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(MainWindow);
+        mainWindow->setCentralWidget(centralwidget);
+        menubar = new QMenuBar(mainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 919, 24));
-        MainWindow->setMenuBar(menubar);
-        statusbar = new QStatusBar(MainWindow);
+        menubar->setGeometry(QRect(0, 0, 1387, 24));
+        mainWindow->setMenuBar(menubar);
+        statusbar = new QStatusBar(mainWindow);
         statusbar->setObjectName("statusbar");
-        MainWindow->setStatusBar(statusbar);
+        mainWindow->setStatusBar(statusbar);
 
-        retranslateUi(MainWindow);
+        retranslateUi(mainWindow);
         QObject::connect(pushButton_12, &QPushButton::clicked, realtimeProcess, qOverload<>(&QTableWidget::clearContents));
         QObject::connect(pushButton_5, &QPushButton::clicked, loginMesseges, qOverload<>(&QTableWidget::clearContents));
         QObject::connect(pushButton_15, &QPushButton::clicked, realTimeSecurity, qOverload<>(&QTableWidget::clearContents));
@@ -715,78 +1015,78 @@ public:
         QObject::connect(pushButton_28, &QPushButton::clicked, fileChangesDevelopement, qOverload<>(&QTableWidget::clearContents));
         QObject::connect(pushButton_29, &QPushButton::clicked, networkConnections, qOverload<>(&QTableWidget::clearContents));
 
-        tabWidget->setCurrentIndex(0);
+        mainTab->setCurrentIndex(0);
         tabWidget_5->setCurrentIndex(0);
         tabWidget_2->setCurrentIndex(0);
         tabWidget_4->setCurrentIndex(0);
         tabWidget_3->setCurrentIndex(2);
 
 
-        QMetaObject::connectSlotsByName(MainWindow);
+        QMetaObject::connectSlotsByName(mainWindow);
     } // setupUi
 
-    void retranslateUi(QMainWindow *MainWindow)
+    void retranslateUi(QMainWindow *mainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "General Errors", nullptr));
-        extractGeneralLogs->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_15->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_21->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Authentication Failure", nullptr));
+        mainWindow->setWindowTitle(QCoreApplication::translate("mainWindow", "MainWindow", nullptr));
+        pushButton->setText(QCoreApplication::translate("mainWindow", "General Errors", nullptr));
+        extractGeneralLogs->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_15->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_21->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QCoreApplication::translate("mainWindow", "Authentication Failure", nullptr));
         searchSudo->setText(QString());
-        pushButton_6->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_20->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QCoreApplication::translate("MainWindow", "Sudo Failures", nullptr));
-        pushButton_7->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_19->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Code Signing Issues", nullptr));
-        pushButton_8->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_18->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QCoreApplication::translate("MainWindow", "Gatekeeper", nullptr));
+        pushButton_6->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_20->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QCoreApplication::translate("mainWindow", "Sudo Failures", nullptr));
+        pushButton_7->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_19->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QCoreApplication::translate("mainWindow", "Code Signing Issues", nullptr));
+        pushButton_8->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_18->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QCoreApplication::translate("mainWindow", "Gatekeeper", nullptr));
         searchKey->setText(QString());
-        pushButton_9->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_17->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_8), QCoreApplication::translate("MainWindow", "Keychain", nullptr));
-        pushButton_10->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_16->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_7), QCoreApplication::translate("MainWindow", "File Access Restrictions", nullptr));
-        pushButton_11->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_14->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_9), QCoreApplication::translate("MainWindow", "SIP Violations", nullptr));
-        tabWidget_5->setTabText(tabWidget_5->indexOf(tab_17), QCoreApplication::translate("MainWindow", "Security Logs", nullptr));
-        pushButton_13->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        refreshLogin->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
-        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_5->setTabText(tabWidget_5->indexOf(tab_18), QCoreApplication::translate("MainWindow", "Login", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Security Logs", nullptr));
-        pushButton_22->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_12->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_4->setTabText(tabWidget_4->indexOf(tab_14), QCoreApplication::translate("MainWindow", "Realtime", nullptr));
-        pushButton_24->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        refreshRunning->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
-        pushButton_23->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_4->setTabText(tabWidget_4->indexOf(tab_15), QCoreApplication::translate("MainWindow", "Running", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_13), QCoreApplication::translate("MainWindow", "Process Logs", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_10), QCoreApplication::translate("MainWindow", "User", nullptr));
-        pushButton_25->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_26->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_11), QCoreApplication::translate("MainWindow", "Security", nullptr));
-        pushButton_27->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_28->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_12), QCoreApplication::translate("MainWindow", "Developement", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "File Changes", nullptr));
-        pushButton_30->setText(QCoreApplication::translate("MainWindow", "Extract", nullptr));
-        pushButton_29->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_16), QCoreApplication::translate("MainWindow", "Network Logs", nullptr));
+        pushButton_9->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_17->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_8), QCoreApplication::translate("mainWindow", "Keychain", nullptr));
+        pushButton_10->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_16->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_7), QCoreApplication::translate("mainWindow", "File Access Restrictions", nullptr));
+        pushButton_11->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_14->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_9), QCoreApplication::translate("mainWindow", "SIP Violations", nullptr));
+        tabWidget_5->setTabText(tabWidget_5->indexOf(tab_17), QCoreApplication::translate("mainWindow", "Security Logs", nullptr));
+        pushButton_13->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        refreshLogin->setText(QCoreApplication::translate("mainWindow", "Refresh", nullptr));
+        pushButton_5->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_5->setTabText(tabWidget_5->indexOf(tab_18), QCoreApplication::translate("mainWindow", "Login", nullptr));
+        mainTab->setTabText(mainTab->indexOf(tab), QString());
+        pushButton_22->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_12->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_4->setTabText(tabWidget_4->indexOf(tab_14), QCoreApplication::translate("mainWindow", "Realtime", nullptr));
+        pushButton_24->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        refreshRunning->setText(QCoreApplication::translate("mainWindow", "Refresh", nullptr));
+        pushButton_23->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_4->setTabText(tabWidget_4->indexOf(tab_15), QCoreApplication::translate("mainWindow", "Running", nullptr));
+        mainTab->setTabText(mainTab->indexOf(tab_13), QString());
+        pushButton_2->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_10), QCoreApplication::translate("mainWindow", "User", nullptr));
+        pushButton_25->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_26->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_11), QCoreApplication::translate("mainWindow", "Security", nullptr));
+        pushButton_27->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_28->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        tabWidget_3->setTabText(tabWidget_3->indexOf(tab_12), QCoreApplication::translate("mainWindow", "Developement", nullptr));
+        mainTab->setTabText(mainTab->indexOf(tab_2), QString());
+        pushButton_30->setText(QCoreApplication::translate("mainWindow", "Extract", nullptr));
+        pushButton_29->setText(QCoreApplication::translate("mainWindow", "Clear", nullptr));
+        mainTab->setTabText(mainTab->indexOf(tab_16), QString());
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class MainWindow: public Ui_MainWindow {};
+    class mainWindow: public Ui_mainWindow {};
 } // namespace Ui
 
 QT_END_NAMESPACE

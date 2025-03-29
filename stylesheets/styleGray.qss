@@ -1,0 +1,255 @@
+/* Main window styling */
+QMainWindow#mainWindow {
+  background-color: #121212; /* Very dark background */
+  color: #E0E0E0; /* Light text */
+}
+
+/* Central widget styling */
+QMainWindow#mainWindow > QWidget {
+  background-color: #1C1C1C; /* Slightly lighter dark background */
+  color: #E0E0E0; /* Light text */
+}
+
+/* Button styling */
+QPushButton {
+  background-color: #3A3A3A; /* Dark gray for buttons */
+  color: #E0E0E0; /* White text */
+  border-radius: 8px; /* Rounded corners */
+  padding: 4px 8px; /* Button padding */
+  margin-left: 8px; /* Left margin */
+  margin-right: 8px; /* Right margin */
+  font-size: 13px; /* Font size */
+}
+
+/* Button hover effect */
+QPushButton:hover {
+  background-color: #4A4A4A; /* Slightly lighter gray on hover */
+}
+
+/* Table widget styling */
+QTableWidget {
+  background-color: #1A1A1A; /* Very dark background */
+  color: #E0E0E0; /* Light text */
+  border: none; /* Remove default border */
+  gridline-color: #333333; /* Dark gridlines */
+  selection-background-color: #5C5C5C; /* Selected row background */
+}
+
+/* Table corner button styling */
+QTableWidget::corner {
+  background-color: #2A2A2A; /* Dark gray corner */
+  border: none; /* Remove default border */
+}
+
+/* Header styling for both vertical and horizontal */
+QHeaderView:vertical, QHeaderView:horizontal {
+  background-color: #2A2A2A; /* Dark gray */
+  color: #E0E0E0; /* Light text */
+}
+
+/* Table header section styling */
+QHeaderView::section {
+  background-color: #2A2A2A; /* Dark gray */
+  color: #E0E0E0; /* White text */
+  border: none; /* Remove default borders */
+  min-width: 40px; /* Header width */
+  font-size: 14px; /* Font size */
+  padding: 6px; /* Padding for headers */
+}
+
+/* Line Edit widget styling */
+QLineEdit {
+  background-color: #3A3A3A; /* Dark gray for input */
+  color: #E0E0E0; /* Light text */
+  border: 1px solid #555555; /* Subtle border */
+  border-radius: 6px; /* Rounded corners */
+  padding: 4px 8px; /* Padding inside the input */
+}
+
+/* Tab widget styling */
+QTabWidget {
+  background-color: #2C2C2C; /* Darker background for tabs */
+  border: none; /* Remove default border */
+}
+
+/* Tab bar styling */
+QTabWidget > QTabBar::tab {
+  background-color: #3A3A3A; /* Dark gray for tabs */
+  color: #E0E0E0; /* White text */
+  padding: 8px 15px; /* Padding inside the tab */
+  border-top-left-radius: 8px; /* Rounded top-left corner */
+  border-top-right-radius: 8px; /* Rounded top-right corner */
+}
+
+/* Selected tab styling */
+QTabWidget > QTabBar::tab:selected {
+  background-color: #5C5C5C; /* Highlighted tab color */
+}
+
+/* Specific tab widget styles */
+QTabWidget#mainTab, 
+QTabWidget#tabWidget_5 {
+  background-color: #1C1C1C; /* Darker background */
+  border: none; /* Remove default border */
+}
+
+/* Tab bar styling for specific tabs */
+QTabWidget#mainTab > QTabBar::tab, 
+QTabWidget#tabWidget_5 > QTabBar::tab {
+  background-color: #3A3A3A; /* Slightly lighter tab color */
+  color: #E0E0E0; /* White text */
+  padding: 8px 15px; /* Padding inside the tab */
+  border-top-left-radius: 8px; /* Rounded top-left corner */
+}
+
+/* Selected tab styling for specific tabs */
+QTabWidget#mainTab > QTabBar::tab:selected, 
+QTabWidget#tabWidget_5 > QTabBar::tab:selected {
+  background-color: #5C5C5C; /* Highlighted tab color */
+}
+
+/* MainTab styling */
+QTabWidget#mainTab {
+  background-color: #1C1C1C; /* Darker background */
+  border: none; /* Remove default border */
+}
+
+QTabWidget#mainTab > QTabBar::tab {
+  background-color: #3A3A3A; /* Slightly lighter tab color */
+  color: #E0E0E0; /* Text color */
+  padding: 8px 15px; /* Padding inside the tab */
+  border-top-left-radius: 8px; /* Rounded top-left corner */
+  border-bottom-left-radius: 8px; /* Rounded bottom-left corner */
+  margin-top: 15px; /* Top margin */
+  margin-bottom: 15px; /* Bottom margin */
+}
+
+/* Selected tab style in mainTab */
+QTabWidget#mainTab > QTabBar::tab:selected {
+  background-color: #5C5C5C; /* Highlighted tab color */
+}
+
+/* Widget tab styles */
+QWidget#tab, 
+QWidget#tab_2,  
+QWidget#tab_4, 
+QWidget#tab_5, 
+QWidget#tab_6, 
+QWidget#tab_7, 
+QWidget#tab_8, 
+QWidget#tab_13, 
+QWidget#tab_15,
+QWidget#tab_16 {
+  background-color: #333333; /* Darker background */
+  color: #E0E0E0; /* White text */
+  border-radius: 10px; /* Rounded corners */
+}
+
+QWidget#tab_17 { 
+  background-color: #4A4A4A; /* Slightly lighter dark background */
+  color: #E0E0E0; /* White text */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Ensures content respects border-radius */
+}
+
+QWidget#tab_9 { 
+  background-color: #555555; /* Darker background */
+  color: #E0E0E0; /* White text */
+  border-radius: 6px; /* Rounded corners */
+}
+
+QWidget#tab_3,
+QWidget#tab_4,
+QWidget#tab_5,
+QWidget#tab_6,
+QWidget#tab_7,
+QWidget#tab_8,
+QWidget#tab_9 { 
+  background-color: #555555; /* Darker background */
+  color: #E0E0E0; /* White text */
+  border-radius: 6px; /* Rounded corners */
+}
+
+QWidget#tab_14, QWidget#tab_15, QWidget#tab_18 {
+  background-color: #4A4A4A; /* Slightly lighter dark background */
+  color: #E0E0E0; /* White text */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Special case for tabs that require hidden overflow */
+QWidget#tab_14, 
+QWidget#tab_15,
+QWidget#tab_10, 
+QWidget#tab_11, 
+QWidget#tab_12 {
+  overflow: hidden; /* Ensures content respects border-radius */
+}
+
+/* Styling for tab_12 */
+QWidget#tab_10, 
+QWidget#tab_11, 
+QWidget#tab_12  {
+  background-color: #4A4A4A; /* Slightly lighter background */
+  color: #E0E0E0; /* White text */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Ensures content respects border-radius */
+}
+
+/* Button styling for specific buttons */
+QPushButton#extractGeneralLogs, 
+QPushButton#clearEventButton {
+  background-color: #3A3A3A; /* Dark gray */
+  color: #E0E0E0; /* White text */
+  border-radius: 10px; /* Rounded corners */
+  padding: 3px 6px; /* Padding inside the button */
+  margin-left: 10px; /* Left margin */
+  margin-right: 10px; /* Right margin */
+}
+
+/* Button hover effect for specific buttons */
+QPushButton#extractGeneralLogs:hover, 
+QPushButton#clearEventButton:hover {
+  background-color: #4A4A4A; /* Darker gray on hover */
+}
+
+/* Real-time security table styling (now applied to all tables) */
+QTableWidget {
+  background-color: #1A1A1A; /* Very dark background */
+  color: #E0E0E0; /* White text */
+  border: none; /* Remove default border */
+  gridline-color: #333333; /* Dark gridlines */
+  selection-background-color: #5C5C5C; /* Selected row background */
+}
+
+/* Table corner button styling for all tables */
+QTableWidget::corner {
+  background-color: #2A2A2A; /* Dark gray corner */
+  border: none; /* Remove default border */
+}
+
+/* Header styling for all tables */
+QHeaderView:vertical, QHeaderView:horizontal {
+  background-color: #2A2A2A; /* Dark gray */
+  color: #E0E0E0; /* White text */
+}
+
+/* Table header section styling for all tables */
+QHeaderView::section {
+  background-color: #2A2A2A; /* Dark gray */
+  color: #E0E0E0; /* White text */
+  border: none; /* Remove default borders */
+  min-width: 40px; /* Vertical header width */
+  font-size: 14px; /* Font size */
+  padding: 6px; /* Padding for headers */
+}
+
+/* Real-time security item styling for all tables */
+QTableWidget QTableWidgetItem {
+  color: #E0E0E0; /* Force white text for all items */
+}
+
+/* Real-time security corner button styling for all tables */
+QTableWidget QTableCornerButton::section {
+  background-color: #2A2A2A; /* Dark gray */
+  border: none; /* Remove default border */
+}
